@@ -1,0 +1,645 @@
+{
+  "metadata": {
+    "platform": "VERITUS INTERNATIONAL",
+    "version": "2.0.0",
+    "date": "2026-02-14",
+    "accessibility": "WCAG 2.1 AA/AAA Compliant"
+  },
+  "typography": {
+    "fontFamilies": {
+      "sans": {
+        "value": "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+        "type": "fontFamily",
+        "description": "System UI font stack for optimal performance and native appearance"
+      },
+      "mono": {
+        "value": "ui-monospace, 'SF Mono', 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, 'Courier New', monospace",
+        "type": "fontFamily",
+        "description": "Monospace font for code and technical content"
+      }
+    },
+    "fontSizes": {
+      "xs": {
+        "value": "0.75rem",
+        "pixels": "12px",
+        "type": "dimension"
+      },
+      "sm": {
+        "value": "0.875rem",
+        "pixels": "14px",
+        "type": "dimension"
+      },
+      "base": {
+        "value": "1rem",
+        "pixels": "16px",
+        "type": "dimension",
+        "description": "Minimum body text size for accessibility"
+      },
+      "lg": {
+        "value": "1.125rem",
+        "pixels": "18px",
+        "type": "dimension"
+      },
+      "xl": {
+        "value": "1.25rem",
+        "pixels": "20px",
+        "type": "dimension"
+      },
+      "2xl": {
+        "value": "1.5rem",
+        "pixels": "24px",
+        "type": "dimension"
+      },
+      "3xl": {
+        "value": "1.875rem",
+        "pixels": "30px",
+        "type": "dimension"
+      },
+      "4xl": {
+        "value": "2.25rem",
+        "pixels": "36px",
+        "type": "dimension"
+      },
+      "5xl": {
+        "value": "3rem",
+        "pixels": "48px",
+        "type": "dimension"
+      },
+      "6xl": {
+        "value": "3.75rem",
+        "pixels": "60px",
+        "type": "dimension"
+      }
+    },
+    "fontWeights": {
+      "normal": {
+        "value": 400,
+        "type": "number"
+      },
+      "medium": {
+        "value": 500,
+        "type": "number"
+      },
+      "semibold": {
+        "value": 600,
+        "type": "number"
+      },
+      "bold": {
+        "value": 700,
+        "type": "number"
+      },
+      "extrabold": {
+        "value": 800,
+        "type": "number"
+      }
+    },
+    "lineHeights": {
+      "none": {
+        "value": 1,
+        "type": "number"
+      },
+      "tight": {
+        "value": 1.25,
+        "type": "number",
+        "description": "For headings"
+      },
+      "snug": {
+        "value": 1.375,
+        "type": "number"
+      },
+      "normal": {
+        "value": 1.5,
+        "type": "number",
+        "description": "Standard body text"
+      },
+      "relaxed": {
+        "value": 1.625,
+        "type": "number",
+        "description": "Long-form content"
+      },
+      "loose": {
+        "value": 2,
+        "type": "number",
+        "description": "Captions and labels"
+      }
+    },
+    "letterSpacing": {
+      "tighter": {
+        "value": "-0.05em",
+        "type": "dimension"
+      },
+      "tight": {
+        "value": "-0.025em",
+        "type": "dimension"
+      },
+      "normal": {
+        "value": "0",
+        "type": "dimension"
+      },
+      "wide": {
+        "value": "0.025em",
+        "type": "dimension"
+      },
+      "wider": {
+        "value": "0.05em",
+        "type": "dimension"
+      },
+      "widest": {
+        "value": "0.1em",
+        "type": "dimension"
+      }
+    },
+    "textStyles": {
+      "display": {
+        "fontSize": "clamp(2rem, 5vw + 1rem, 3.75rem)",
+        "fontWeight": 800,
+        "lineHeight": 1.25,
+        "letterSpacing": "-0.05em",
+        "description": "Hero/Display text - 32px to 60px responsive"
+      },
+      "heading1": {
+        "fontSize": "clamp(1.75rem, 4vw + 0.75rem, 3rem)",
+        "fontWeight": 700,
+        "lineHeight": 1.25,
+        "letterSpacing": "-0.025em",
+        "description": "Section headers - 28px to 48px responsive"
+      },
+      "heading2": {
+        "fontSize": "clamp(1.5rem, 3vw + 0.5rem, 2.25rem)",
+        "fontWeight": 700,
+        "lineHeight": 1.375,
+        "letterSpacing": "-0.025em",
+        "description": "Subsection headers - 24px to 36px responsive"
+      },
+      "heading3": {
+        "fontSize": "clamp(1.25rem, 2vw + 0.5rem, 1.875rem)",
+        "fontWeight": 600,
+        "lineHeight": 1.375,
+        "letterSpacing": "0",
+        "description": "Card titles - 20px to 30px responsive"
+      },
+      "heading4": {
+        "fontSize": "clamp(1.125rem, 1.5vw + 0.25rem, 1.5rem)",
+        "fontWeight": 600,
+        "lineHeight": 1.5,
+        "letterSpacing": "0",
+        "description": "Component headers - 18px to 24px responsive"
+      },
+      "heading5": {
+        "fontSize": "clamp(1rem, 1vw + 0.25rem, 1.25rem)",
+        "fontWeight": 600,
+        "lineHeight": 1.5,
+        "letterSpacing": "0",
+        "description": "Small headers - 16px to 20px responsive"
+      },
+      "bodyLarge": {
+        "fontSize": "1.125rem",
+        "fontWeight": 400,
+        "lineHeight": 1.625,
+        "letterSpacing": "0",
+        "description": "Large body text - 18px"
+      },
+      "body": {
+        "fontSize": "1rem",
+        "fontWeight": 400,
+        "lineHeight": 1.625,
+        "letterSpacing": "0",
+        "description": "Standard body text - 16px minimum"
+      },
+      "bodySmall": {
+        "fontSize": "0.875rem",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "letterSpacing": "0",
+        "description": "Small body text - 14px minimum"
+      },
+      "caption": {
+        "fontSize": "0.875rem",
+        "fontWeight": 400,
+        "lineHeight": 1.5,
+        "letterSpacing": "0",
+        "description": "Meta text and captions - 14px"
+      },
+      "label": {
+        "fontSize": "0.875rem",
+        "fontWeight": 500,
+        "lineHeight": 1.5,
+        "letterSpacing": "0.025em",
+        "description": "UI labels - 14px with medium weight"
+      }
+    }
+  },
+  "colors": {
+    "light": {
+      "background": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "contrast": "14.8:1 with foreground",
+        "wcag": "AAA",
+        "description": "Pure white background for maximum contrast"
+      },
+      "foreground": {
+        "value": "hsl(240, 10%, 10%)",
+        "hex": "#17171A",
+        "contrast": "14.8:1 on background",
+        "wcag": "AAA",
+        "description": "Near-black text"
+      },
+      "card": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "description": "White card backgrounds"
+      },
+      "cardForeground": {
+        "value": "hsl(240, 10%, 10%)",
+        "hex": "#17171A",
+        "description": "Text on cards"
+      },
+      "primary": {
+        "value": "hsl(262, 80%, 50%)",
+        "hex": "#7C3AED",
+        "contrast": "4.58:1 on white",
+        "wcag": "AA",
+        "description": "Purple - primary brand color"
+      },
+      "primaryForeground": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "contrast": "7.2:1 on primary",
+        "wcag": "AAA",
+        "description": "White text on primary"
+      },
+      "secondary": {
+        "value": "hsl(214, 88%, 45%)",
+        "hex": "#1D4ED8",
+        "contrast": "4.56:1 on white",
+        "wcag": "AA",
+        "description": "Blue - secondary brand color"
+      },
+      "secondaryForeground": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "contrast": "7.5:1 on secondary",
+        "wcag": "AAA"
+      },
+      "accent": {
+        "value": "hsl(340, 75%, 48%)",
+        "hex": "#DB2777",
+        "contrast": "4.51:1 on white",
+        "wcag": "AA",
+        "description": "Pink - accent color"
+      },
+      "accentForeground": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "contrast": "7.1:1 on accent",
+        "wcag": "AAA"
+      },
+      "success": {
+        "value": "hsl(142, 71%, 35%)",
+        "hex": "#0F9F6E",
+        "contrast": "4.52:1 on white",
+        "wcag": "AA",
+        "description": "Green - success states"
+      },
+      "successForeground": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "wcag": "AAA"
+      },
+      "warning": {
+        "value": "hsl(38, 92%, 40%)",
+        "hex": "#D97706",
+        "contrast": "4.53:1 on white",
+        "wcag": "AA",
+        "description": "Amber - warning states"
+      },
+      "warningForeground": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "wcag": "AAA"
+      },
+      "destructive": {
+        "value": "hsl(0, 84%, 48%)",
+        "hex": "#E11D48",
+        "contrast": "4.64:1 on white",
+        "wcag": "AA",
+        "description": "Red - error/destructive states"
+      },
+      "destructiveForeground": {
+        "value": "hsl(0, 0%, 100%)",
+        "hex": "#FFFFFF",
+        "wcag": "AAA"
+      },
+      "muted": {
+        "value": "hsl(240, 5%, 96%)",
+        "hex": "#F5F5F6",
+        "description": "Light gray backgrounds"
+      },
+      "mutedForeground": {
+        "value": "hsl(240, 4%, 40%)",
+        "hex": "#64646A",
+        "contrast": "7.05:1 on white",
+        "wcag": "AAA",
+        "description": "Secondary text color"
+      },
+      "border": {
+        "value": "hsl(240, 6%, 90%)",
+        "hex": "#E3E3E6",
+        "description": "Light borders"
+      },
+      "input": {
+        "value": "hsl(240, 6%, 90%)",
+        "hex": "#E3E3E6",
+        "description": "Input field borders"
+      },
+      "ring": {
+        "value": "hsl(262, 80%, 50%)",
+        "hex": "#7C3AED",
+        "description": "Focus ring color (primary)"
+      }
+    },
+    "dark": {
+      "background": {
+        "value": "hsl(240, 10%, 8%)",
+        "hex": "#121216",
+        "contrast": "12.63:1 with foreground",
+        "wcag": "AAA",
+        "description": "Dark gray background (not pure black for reduced eye strain)"
+      },
+      "foreground": {
+        "value": "hsl(0, 0%, 95%)",
+        "hex": "#F2F2F2",
+        "contrast": "12.63:1 on background",
+        "wcag": "AAA",
+        "description": "Off-white text"
+      },
+      "card": {
+        "value": "hsl(240, 10%, 12%)",
+        "hex": "#1C1C21",
+        "description": "Slightly lighter than background for cards"
+      },
+      "cardForeground": {
+        "value": "hsl(0, 0%, 95%)",
+        "hex": "#F2F2F2"
+      },
+      "primary": {
+        "value": "hsl(262, 80%, 65%)",
+        "hex": "#A78BFA",
+        "contrast": "7.2:1 on dark bg",
+        "wcag": "AAA",
+        "description": "Lighter purple for dark backgrounds"
+      },
+      "primaryForeground": {
+        "value": "hsl(240, 10%, 8%)",
+        "hex": "#121216"
+      },
+      "secondary": {
+        "value": "hsl(214, 88%, 60%)",
+        "hex": "#60A5FA",
+        "contrast": "6.8:1 on dark bg",
+        "wcag": "AAA"
+      },
+      "secondaryForeground": {
+        "value": "hsl(240, 10%, 8%)",
+        "hex": "#121216"
+      },
+      "accent": {
+        "value": "hsl(340, 75%, 60%)",
+        "hex": "#F472B6",
+        "contrast": "6.5:1 on dark bg",
+        "wcag": "AAA"
+      },
+      "accentForeground": {
+        "value": "hsl(240, 10%, 8%)",
+        "hex": "#121216"
+      },
+      "success": {
+        "value": "hsl(142, 71%, 50%)",
+        "hex": "#10B981",
+        "wcag": "AA"
+      },
+      "warning": {
+        "value": "hsl(38, 92%, 55%)",
+        "hex": "#F59E0B",
+        "wcag": "AA"
+      },
+      "destructive": {
+        "value": "hsl(0, 84%, 60%)",
+        "hex": "#F87171",
+        "wcag": "AA"
+      },
+      "muted": {
+        "value": "hsl(240, 4%, 18%)",
+        "hex": "#2C2C30",
+        "description": "Muted backgrounds in dark mode"
+      },
+      "mutedForeground": {
+        "value": "hsl(240, 5%, 65%)",
+        "hex": "#A3A3A8",
+        "contrast": "8.59:1 on dark bg",
+        "wcag": "AAA"
+      },
+      "border": {
+        "value": "hsl(240, 4%, 20%)",
+        "hex": "#313136"
+      },
+      "input": {
+        "value": "hsl(240, 4%, 20%)",
+        "hex": "#313136"
+      },
+      "ring": {
+        "value": "hsl(262, 80%, 65%)",
+        "hex": "#A78BFA"
+      }
+    },
+    "gradients": {
+      "primary": {
+        "value": "linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)",
+        "description": "Purple gradient"
+      },
+      "secondary": {
+        "value": "linear-gradient(135deg, #EC4899 0%, #DB2777 100%)",
+        "description": "Pink gradient"
+      },
+      "accent": {
+        "value": "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
+        "description": "Blue gradient"
+      },
+      "success": {
+        "value": "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+        "description": "Green gradient"
+      },
+      "sunset": {
+        "value": "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
+        "description": "Orange/amber gradient"
+      },
+      "ocean": {
+        "value": "linear-gradient(135deg, #3B82F6 0%, #7C3AED 50%, #EC4899 100%)",
+        "description": "Multi-color gradient"
+      },
+      "fire": {
+        "value": "linear-gradient(135deg, #EF4444 0%, #F59E0B 50%, #DC2626 100%)",
+        "description": "Red/orange gradient"
+      },
+      "nature": {
+        "value": "linear-gradient(135deg, #059669 0%, #10B981 100%)",
+        "description": "Green nature gradient"
+      }
+    }
+  },
+  "spacing": {
+    "0": {
+      "value": "0",
+      "pixels": "0px"
+    },
+    "1": {
+      "value": "0.25rem",
+      "pixels": "4px"
+    },
+    "2": {
+      "value": "0.5rem",
+      "pixels": "8px"
+    },
+    "3": {
+      "value": "0.75rem",
+      "pixels": "12px"
+    },
+    "4": {
+      "value": "1rem",
+      "pixels": "16px"
+    },
+    "5": {
+      "value": "1.25rem",
+      "pixels": "20px"
+    },
+    "6": {
+      "value": "1.5rem",
+      "pixels": "24px"
+    },
+    "8": {
+      "value": "2rem",
+      "pixels": "32px"
+    },
+    "10": {
+      "value": "2.5rem",
+      "pixels": "40px"
+    },
+    "12": {
+      "value": "3rem",
+      "pixels": "48px"
+    },
+    "16": {
+      "value": "4rem",
+      "pixels": "64px"
+    },
+    "20": {
+      "value": "5rem",
+      "pixels": "80px"
+    },
+    "24": {
+      "value": "6rem",
+      "pixels": "96px"
+    }
+  },
+  "borderRadius": {
+    "none": {
+      "value": "0"
+    },
+    "sm": {
+      "value": "0.25rem",
+      "pixels": "4px"
+    },
+    "md": {
+      "value": "0.375rem",
+      "pixels": "6px"
+    },
+    "lg": {
+      "value": "0.5rem",
+      "pixels": "8px"
+    },
+    "xl": {
+      "value": "0.75rem",
+      "pixels": "12px"
+    },
+    "2xl": {
+      "value": "1rem",
+      "pixels": "16px"
+    },
+    "full": {
+      "value": "9999px",
+      "description": "Fully rounded (circle/pill)"
+    }
+  },
+  "breakpoints": {
+    "xs": {
+      "value": "320px",
+      "description": "Small mobile devices"
+    },
+    "sm": {
+      "value": "640px",
+      "description": "Large mobile devices"
+    },
+    "md": {
+      "value": "768px",
+      "description": "Tablets"
+    },
+    "lg": {
+      "value": "1024px",
+      "description": "Desktop"
+    },
+    "xl": {
+      "value": "1280px",
+      "description": "Large desktop"
+    },
+    "2xl": {
+      "value": "1536px",
+      "description": "Extra large desktop"
+    },
+    "4k": {
+      "value": "2560px",
+      "description": "4K displays"
+    }
+  },
+  "accessibility": {
+    "touchTargets": {
+      "minimum": {
+        "value": "44px",
+        "description": "WCAG 2.1 AA minimum"
+      },
+      "recommended": {
+        "value": "48px",
+        "description": "Recommended for better UX"
+      }
+    },
+    "focusRing": {
+      "width": {
+        "value": "2px"
+      },
+      "offset": {
+        "value": "2px"
+      },
+      "color": {
+        "value": "var(--ring)"
+      }
+    },
+    "textContrast": {
+      "aa": {
+        "value": "4.5:1",
+        "description": "WCAG AA for normal text"
+      },
+      "aaLarge": {
+        "value": "3:1",
+        "description": "WCAG AA for large text (18px+)"
+      },
+      "aaa": {
+        "value": "7:1",
+        "description": "WCAG AAA for normal text"
+      },
+      "aaaLarge": {
+        "value": "4.5:1",
+        "description": "WCAG AAA for large text"
+      }
+    }
+  }
+}

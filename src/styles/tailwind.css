@@ -1,0 +1,62 @@
+@import 'tailwindcss' source(none);
+@source '../**/*.{js,ts,jsx,tsx}';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import 'tw-animate-css';
+
+/* MSport Design System Integration */
+@theme {
+    /* Colors from MSport palette */
+    --color-primary: #F15A24;
+    --color-primary-dark: #C2410C;
+    --color-secondary: #000000;
+    --color-accent: #2563EB;
+
+    /* Extend Tailwind with custom utilities */
+    --font-display: clamp(2rem, 5vw + 1rem, 3.75rem);
+    --font-h1: clamp(1.75rem, 4vw + 0.75rem, 3rem);
+    --font-h2: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
+    --font-h3: clamp(1.25rem, 2vw + 0.5rem, 1.875rem);
+}
+
+/* Custom Tailwind Utilities for MSport */
+@layer utilities {
+    .text-msport-orange {
+        color: var(--color-primary-dark);
+    }
+
+    .bg-msport-orange {
+        background-color: var(--color-primary);
+    }
+
+    .bg-msport-black {
+        background-color: var(--color-secondary);
+    }
+
+    .text-gradient-msport {
+        background: linear-gradient(135deg, #F15A24 0%, #C2410C 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .text-gradient-energy {
+        background: linear-gradient(135deg, #F15A24 0%, #2563EB 50%, #000000 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .touch-target {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    @media (max-width: 767px) {
+        .touch-target {
+            min-width: 48px;
+            min-height: 48px;
+        }
+    }
+}

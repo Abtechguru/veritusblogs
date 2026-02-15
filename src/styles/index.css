@@ -1,0 +1,200 @@
+/* MSport Design System - WCAG AA/AAA Compliant */
+@import './theme.css';
+@import './fonts.css';
+@import './tailwind.css';
+
+/* ============================================
+   RESPONSIVE ENHANCEMENTS
+   ============================================ */
+
+/* Extra small devices (<=374px) */
+@media (max-width: 374px) {
+    :root {
+        --font-size-base: 14px;
+    }
+
+    /* Ensure logo text is readable on very small screens */
+    .xs\:inline {
+        display: none !important;
+    }
+}
+
+/* Show on xs and above */
+@media (min-width: 375px) {
+    .xs\:inline {
+        display: inline !important;
+    }
+}
+
+/* Smooth scrolling for better UX */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Touch target optimization for mobile */
+@media (max-width: 768px) {
+
+    button,
+    a,
+    [role="button"],
+    .touch-target {
+        min-height: 48px;
+        min-width: 48px;
+    }
+}
+
+/* Desktop touch targets */
+@media (min-width: 769px) {
+    .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Line clamp utilities (if not already present in Tailwind) */
+.line-clamp-1,
+.line-clamp-2,
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-1 {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+}
+
+.line-clamp-2 {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.line-clamp-3 {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+/* Gradient text utilities */
+.gradient-text {
+    background: linear-gradient(135deg, #F15A24 0%, #2563EB 50%, #000000 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* MSport gradient text */
+.text-gradient-msport {
+    background: linear-gradient(135deg, #F15A24 0%, #C2410C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Energy gradient text */
+.text-gradient-energy {
+    background: linear-gradient(135deg, #F15A24 0%, #2563EB 50%, #000000 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Focus ring with MSport colors */
+*:focus-visible {
+    outline: 2px solid #C2410C;
+    outline-offset: 2px;
+}
+
+/* Ensure images don't break layout */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Better text rendering */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Prevent horizontal scroll on mobile */
+html,
+body {
+    overflow-x: hidden;
+}
+
+/* ============================================
+   ANIMATED BACKGROUNDS
+   ============================================ */
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animated-bg {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+}
+
+[data-theme="light"] body,
+body:not(.dark) {
+    background: linear-gradient(-45deg, #fdfbfb, #ebedee, #fdfbfb, #e6dee9);
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+}
+
+[data-theme="dark"] body,
+.dark body {
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
+    /* Darker, cooler tones */
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+    color: #e0e0e0;
+    /* Ensure text is visible */
+}
+
+/* Glassmorphism Card Utility */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .glass-card,
+.dark .glass-card {
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .glass-card:hover,
+.dark .glass-card:hover {
+    background: rgba(50, 50, 50, 0.8);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
