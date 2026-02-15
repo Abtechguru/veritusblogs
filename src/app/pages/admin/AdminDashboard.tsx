@@ -102,22 +102,22 @@ export const AdminDashboard = () => {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-10">
       {/* Premium Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-1">
-        <div className="flex items-center gap-5">
-          <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-700 flex items-center justify-center shadow-xl shadow-indigo-600/20 rotate-3 group hover:rotate-0 transition-transform cursor-pointer">
-            <Command className="text-white h-7 w-7" />
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-1">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
+          <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-700 flex items-center justify-center shadow-xl shadow-indigo-600/20 rotate-3 group hover:rotate-0 transition-transform cursor-pointer shrink-0">
+            <Command className="text-white h-6 w-6 sm:h-7 sm:w-7" />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1">Command Hub</h1>
-            <p className="text-slate-500 dark:text-slate-400 font-medium italic">
-              Logged as <span className="text-indigo-600 font-black uppercase tracking-tighter">{displayUser.name}</span> • System Operational
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1">Command Hub</h1>
+            <p className="text-[11px] sm:text-sm text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">
+              Logged as <span className="text-indigo-600 font-black uppercase tracking-tighter">{displayUser.name}</span>
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           {pendingAuthors > 0 && (
             <Link to="/admin/approvals">
-              <Button className="rounded-xl bg-amber-500 hover:bg-amber-600 text-white border-none h-11 px-5 shadow-lg shadow-amber-500/20 animate-bounce transition-all font-black text-[10px] uppercase tracking-widest">
+              <Button className="rounded-xl bg-amber-500 hover:bg-amber-600 text-white border-none h-11 px-5 shadow-lg shadow-amber-500/20 transition-all font-black text-[10px] uppercase tracking-widest w-full sm:w-auto">
                 <UserCheck className="h-4 w-4 mr-2" /> {pendingAuthors} Pending Validations
               </Button>
             </Link>
@@ -126,14 +126,14 @@ export const AdminDashboard = () => {
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Current Sync</p>
             <p className="text-xs font-bold text-slate-900 dark:text-white">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
           </div>
-          <Button variant="outline" className="rounded-xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-11 px-5 shadow-sm hover:shadow-md transition-all font-black text-[10px] uppercase tracking-widest text-slate-500">
+          <Button variant="outline" className="rounded-xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 h-11 px-5 shadow-sm hover:shadow-md transition-all font-black text-[10px] uppercase tracking-widest text-slate-500 w-full sm:w-auto">
             <Activity className="h-4 w-4 mr-2 text-indigo-500" /> Infrastructure Live
           </Button>
         </div>
       </div>
 
       {/* Grid Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {statCards.map((stat, index) => (
           <Link key={index} to={stat.path}>
             <Card className="border-none shadow-xl shadow-slate-200/40 dark:shadow-none bg-white dark:bg-slate-900 overflow-hidden group hover:scale-[1.03] active:scale-95 transition-all duration-500 relative cursor-pointer">

@@ -134,24 +134,24 @@ export const AdminUsers = () => {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
       {/* Premium Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <div className="h-16 w-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-2xl shadow-indigo-600/30 group">
-            <Users className="h-8 w-8 group-hover:scale-110 transition-transform" />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+          <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-2xl shadow-indigo-600/30 group">
+            <Users className="h-7 w-7 sm:h-8 sm:w-8 group-hover:scale-110 transition-transform" />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white flex items-center gap-3 tracking-tighter">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-3 tracking-tighter">
               Identity Registry
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 mt-0.5 font-medium italic">Comprehensive management of platform-wide user protocols</p>
+            <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium italic leading-relaxed">Platform-wide user protocol management</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-[10px] font-black bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-4 py-2 rounded-full border border-indigo-100 dark:border-indigo-800 shadow-sm leading-none h-fit">
-          <Fingerprint size={14} className="mr-2" /> ENCRYPTED NODE ACCESS
+        <div className="flex items-center gap-2 text-[9px] sm:text-[10px] font-black bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-indigo-100 dark:border-indigo-800 shadow-sm leading-none h-fit w-fit">
+          <Fingerprint size={12} className="mr-2" /> ENCRYPTED NODE ACCESS
         </div>
       </div>
 
       {/* Network Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {[
           { label: 'Total Nodes', count: users.length, icon: <Users />, color: 'text-indigo-600', bg: 'bg-indigo-50' },
           { label: 'Root Admins', count: users.filter(u => u.role === 'admin').length, icon: <ShieldAlert />, color: 'text-rose-600', bg: 'bg-rose-50' },

@@ -245,7 +245,7 @@ export function ReelsPage() {
             </div>
 
             {/* User Info & Caption */}
-            <div className="absolute bottom-20 left-4 right-20 z-10">
+            <div className="absolute bottom-28 sm:bottom-32 xl:bottom-20 left-4 right-20 z-10">
               <div className="flex items-center gap-3 mb-3">
                 <ImageWithFallback
                   src={reel.userAvatar}
@@ -271,7 +271,7 @@ export function ReelsPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="absolute bottom-20 right-4 z-10 flex flex-col gap-6">
+            <div className="absolute bottom-28 sm:bottom-32 xl:bottom-20 right-4 z-10 flex flex-col gap-5 sm:gap-6">
               {/* Like */}
               <motion.button
                 whileTap={{ scale: 0.9 }}

@@ -113,10 +113,10 @@ export const AdminArticles = () => {
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-10">
       {/* Articles Premium Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-        <div className="flex items-center gap-6">
-          <div className="h-20 w-20 rounded-[2.5rem] bg-indigo-600 text-white flex items-center justify-center shadow-2xl shadow-indigo-600/30 group">
-            <BookOpen className="h-10 w-10 group-hover:scale-110 transition-transform" />
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+          <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl sm:rounded-[2.5rem] bg-indigo-600 text-white flex items-center justify-center shadow-2xl shadow-indigo-600/30 group shrink-0">
+            <BookOpen className="h-8 w-8 sm:h-10 sm:w-10 group-hover:scale-110 transition-transform" />
           </div>
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -124,16 +124,16 @@ export const AdminArticles = () => {
               <span className="h-1 w-1 rounded-full bg-slate-300" />
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic font-serif">Main Repository</span>
             </div>
-            <h1 className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-2">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-none mb-2">
               Manuscript <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">Assets.</span>
             </h1>
-            <p className="text-slate-500 font-medium italic">Managing <span className="text-indigo-600 font-bold">{articles.length} digital properties</span> across the network.</p>
+            <p className="text-sm sm:text-base text-slate-500 font-medium italic">Managing <span className="text-indigo-600 font-bold">{articles.length} digital properties</span> across the network.</p>
           </div>
         </div>
         <Button
           onClick={() => navigate('/create-article')}
           size="lg"
-          className="h-14 px-10 rounded-[1.5rem] bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[11px] uppercase tracking-[3px] shadow-2xl shadow-indigo-600/30 transition-all active:scale-95 group"
+          className="h-12 sm:h-14 px-6 sm:px-10 rounded-xl sm:rounded-[1.5rem] bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs sm:text-[11px] uppercase tracking-[2px] sm:tracking-[3px] shadow-2xl shadow-indigo-600/30 transition-all active:scale-95 group w-full lg:w-auto"
         >
           <PlusCircle className="mr-3 h-5 w-5 group-hover:rotate-90 transition-transform" />
           Forge New Content
@@ -141,7 +141,7 @@ export const AdminArticles = () => {
       </div>
 
       {/* Performance Indicators */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {[
           { label: 'Platform Assets', value: articles.length, icon: <FileText />, color: 'text-indigo-600', bg: 'bg-indigo-50' },
           { label: 'Global Impressions', value: articles.reduce((acc, a) => acc + (a.views || 0), 0).toLocaleString(), icon: <Globe />, color: 'text-amber-600', bg: 'bg-amber-50' },
@@ -167,8 +167,8 @@ export const AdminArticles = () => {
         <CardHeader className="p-10 border-b border-slate-50 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-800/20">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
-              <CardTitle className="text-3xl font-black tracking-tight">Manuscript Ledger</CardTitle>
-              <CardDescription className="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-1 italic">Comprehensive archive of platform narratives and engagement data</CardDescription>
+              <CardTitle className="text-2xl sm:text-3xl font-black tracking-tight">Manuscript Ledger</CardTitle>
+              <CardDescription className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-slate-400 mt-1 italic">Archive of platform narratives and engagement data</CardDescription>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-max">
               <div className="relative flex-1 lg:w-80">

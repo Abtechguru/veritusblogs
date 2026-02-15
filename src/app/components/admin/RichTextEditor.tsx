@@ -100,12 +100,12 @@ export const RichTextEditor = ({ content, onChange, placeholder }: RichTextEdito
             "transition-all duration-500 flex flex-col border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden shadow-sm",
             isFullScreen
                 ? "fixed inset-0 z-[100] h-screen w-screen"
-                : "rounded-2xl min-h-[500px]"
+                : "rounded-2xl min-h-[300px] sm:min-h-[500px]"
         )}>
             {/* Toolbar Area */}
-            <div className="flex flex-wrap items-center justify-between gap-1 p-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-10">
-                <div className="flex flex-wrap items-center gap-1">
-                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 mr-2">
+            <div className="flex flex-wrap items-center justify-between gap-1 p-2 sm:p-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0 z-10">
+                <div className="flex flex-wrap items-center gap-1 sm:gap-2">
+                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
                         <ToolbarButton
                             icon={Bold}
                             onClick={() => execCommand('bold')}
@@ -132,18 +132,18 @@ export const RichTextEditor = ({ content, onChange, placeholder }: RichTextEdito
                         />
                     </div>
 
-                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 mr-2">
+                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
                         <ToolbarButton icon={AlignLeft} onClick={() => execCommand('justifyLeft')} label="Align Left" />
                         <ToolbarButton icon={AlignCenter} onClick={() => execCommand('justifyCenter')} label="Align Center" />
                         <ToolbarButton icon={AlignRight} onClick={() => execCommand('justifyRight')} label="Align Right" />
                     </div>
 
-                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 mr-2">
+                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
                         <ToolbarButton icon={List} onClick={() => execCommand('insertUnorderedList')} label="Bullet List" />
                         <ToolbarButton icon={ListOrdered} onClick={() => execCommand('insertOrderedList')} label="Numbered List" />
                     </div>
 
-                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 mr-2">
+                    <div className="flex items-center gap-0.5 bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
                         <ToolbarButton icon={LinkIcon} onClick={addLink} label="Insert Link" />
                         <ToolbarButton icon={ImageIcon} onClick={addImage} label="Insert Image" />
                         <ToolbarButton icon={Quote} onClick={() => execCommand('formatBlock', 'blockquote')} label="Blockquote" />
@@ -219,8 +219,8 @@ export const RichTextEditor = ({ content, onChange, placeholder }: RichTextEdito
 
             {/* Editor Body */}
             <div className={cn(
-                "flex-1 bg-white dark:bg-slate-950 p-8 lg:p-12 transition-all duration-500 overflow-y-auto custom-scrollbar",
-                isFullScreen ? "max-w-4xl mx-auto shadow-2xl my-8 rounded-2xl" : ""
+                "flex-1 bg-white dark:bg-slate-950 p-4 sm:p-8 lg:p-12 transition-all duration-500 overflow-y-auto custom-scrollbar",
+                isFullScreen ? "max-w-4xl mx-auto shadow-2xl my-2 sm:my-8 rounded-2xl" : ""
             )}>
                 <div
                     ref={editorRef}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, X } from 'lucide-react';
 import { getRandomWiseWord, WiseWord } from '../data/africaWiseWords';
@@ -79,7 +79,7 @@ export function AfricaWiseWords() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ duration: 0.5 }}
-          className="fixed bottom-4 right-4 z-50 max-w-sm"
+          className="fixed bottom-20 xl:bottom-4 right-4 z-50 max-w-[calc(100vw-32px)] sm:max-w-sm"
         >
           <Card className="relative overflow-hidden border-2 border-amber-400 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950 dark:via-orange-950 dark:to-yellow-950 shadow-2xl">
             {/* Decorative Pattern */}
