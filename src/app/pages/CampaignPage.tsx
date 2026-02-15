@@ -2,25 +2,33 @@ import { Link } from 'react-router';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea';
 import {
+  Shield,
+  GraduationCap,
+  Sparkles,
   Target,
   Heart,
   Users,
   TrendingUp,
   CheckCircle2,
   ArrowRight,
-  Megaphone,
-  Shield,
-  GraduationCap
+  Megaphone
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { getArticlesByTag } from '../data/mockData';
 import { formatDate } from '../lib/utils';
+import { DonationSection } from '../components/campaign/DonationSection';
+import { VolunteerForm } from '../components/campaign/VolunteerForm';
+import { useRef } from 'react';
 
 export const CampaignPage = () => {
   const latestNews = getArticlesByTag('Ombugadu').slice(0, 3);
+  const donationRef = useRef<HTMLDivElement>(null);
+  const volunteerRef = useRef<HTMLDivElement>(null);
+
+  const scrollTo = (ref: React.RefObject<HTMLDivElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const keyPolicies = [
     {
@@ -81,11 +89,20 @@ export const CampaignPage = () => {
               "Leadership is about service, not position. Join me in building a sustainable and inclusive future for Nasarawa."
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white border-none rounded-full px-8 py-6 text-lg shadow-lg hover:shadow-green-500/30 transition-all">
+              <Button
+                size="lg"
+                onClick={() => scrollTo(volunteerRef)}
+                className="bg-green-600 hover:bg-green-700 text-white border-none rounded-full px-8 py-6 text-lg shadow-lg hover:shadow-green-500/30 transition-all font-black uppercase tracking-widest"
+              >
                 Join the Movement
               </Button>
-              <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/40 text-white hover:bg-white hover:text-green-800 rounded-full px-8 py-6 text-lg">
-                Read the Manifesto
+              <Button
+                size="lg"
+                onClick={() => scrollTo(donationRef)}
+                variant="outline"
+                className="bg-white/10 backdrop-blur-md border-white/40 text-white hover:bg-white hover:text-green-800 rounded-full px-8 py-6 text-lg font-black uppercase tracking-widest"
+              >
+                Donate Now
               </Button>
             </div>
           </motion.div>
@@ -423,6 +440,11 @@ export const CampaignPage = () => {
         </div>
       </section>
 
+      {/* Real-time Donation Tracking */}
+      <div ref={donationRef}>
+        <DonationSection />
+      </div>
+
       {/* Latest Updates */}
       <section className="py-20 bg-white dark:bg-gray-950/50">
         <div className="container mx-auto px-4">
@@ -467,73 +489,63 @@ export const CampaignPage = () => {
         </div>
       </section>
 
-      {/* Join the Movement / Footer CTA */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-green-900">
+      {/* Join the Movement / Volunteer Section */}
+      <section ref={volunteerRef} className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-slate-50 dark:bg-gray-950">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white dark:from-gray-950 to-transparent"></div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 md:p-12 shadow-2xl max-w-5xl mx-auto flex flex-col md:flex-row gap-12 items-center">
-            <div className="md:w-1/2">
-              <div className="inline-flex items-center gap-2 text-green-600 font-bold mb-4 uppercase tracking-widest text-sm">
-                <Megaphone className="h-4 w-4" />
-                Get Involved
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">
-                Your Voice Matters. <br /> Join Us Today.
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
-                We are building a movement of dedicated citizens ready to take back our state. Sign up to volunteer, receive updates, or donate to the cause.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
-                    <Users className="h-5 w-5" />
+          <div className="flex flex-col lg:flex-row gap-20 items-center">
+            <div className="lg:w-1/2">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-black mb-6 uppercase tracking-[4px] text-xs">
+                  <Megaphone className="h-4 w-4" />
+                  Get Involved Today
+                </div>
+                <h2 className="text-4xl md:text-6xl font-black mb-8 text-gray-900 dark:text-white leading-tight">
+                  Your Voice <span className="text-green-600 italic">Matters.</span> <br /> Join the Frontline.
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-10 text-xl leading-relaxed">
+                  We are building an army of dedicated citizens ready to redefine the future of Nasarawa State. Whether as a grassroots volunteer or a digital supporter, your role is pivotal.
+                </p>
+
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <div className="flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-gray-900 shadow-xl border border-gray-100 dark:border-gray-800">
+                    <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 shrink-0">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Volunteer</h4>
+                      <p className="text-sm text-gray-500">Grassroots mobilization in your local ward.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white">Volunteer</h4>
-                    <p className="text-sm text-gray-500">Join our grassroots team in your ward.</p>
+                  <div className="flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-gray-900 shadow-xl border border-gray-100 dark:border-gray-800">
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 shrink-0">
+                      <Sparkles className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Supporter</h4>
+                      <p className="text-sm text-gray-500">Digital advocacy and logistics support.</p>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-                    <Target className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white">Donate</h4>
-                    <p className="text-sm text-gray-500">Support the campaign financially.</p>
-                  </div>
-                </div>
-              </div>
+              </motion.div>
             </div>
 
-            <div className="md:w-1/2 w-full bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl border border-gray-100 dark:border-gray-700">
-              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Join the Newsletter</h3>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
-                    <Input placeholder="John" className="bg-white dark:bg-gray-900" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
-                    <Input placeholder="Doe" className="bg-white dark:bg-gray-900" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
-                  <Input type="email" placeholder="john@example.com" className="bg-white dark:bg-gray-900" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Message (Optional)</label>
-                  <Textarea placeholder="I want to help with..." className="bg-white dark:bg-gray-900 min-h-[100px]" />
-                </div>
-
-                <Button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-6 text-lg shadow-lg">
-                  Sign Me Up
-                </Button>
-              </form>
+            <div className="lg:w-1/2 w-full">
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <VolunteerForm />
+              </motion.div>
             </div>
           </div>
         </div>

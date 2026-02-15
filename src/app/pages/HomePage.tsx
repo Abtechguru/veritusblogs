@@ -87,98 +87,104 @@ export const HomePage = () => {
             </p>
           </motion.div>
 
-          {/* Campaign Cards */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* David Ombugadu Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <Link to="/campaign/david-ombugadu-2027">
-                <Card className="glass-card border-none overflow-hidden h-full hover:shadow-2xl transition-all duration-300 group bg-white/60 dark:bg-black/40">
-                  <CardContent className="p-0 flex flex-col h-full">
-                    <div className="relative h-64 overflow-hidden bg-gradient-to-t from-black/50 to-transparent">
+          {/* Campaign Billboard Slider */}
+          <div className="relative group billboard-mask max-w-7xl mx-auto">
+            {/* Scroll Container */}
+            <div className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory custom-scrollbar-hide cursor-grab active:cursor-grabbing px-6 sm:px-24">
+              {/* David Ombugadu Billboard */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="min-w-[90vw] md:min-w-[800px] lg:min-w-[900px] snap-center"
+              >
+                <Link to="/campaign/david-ombugadu-2027">
+                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.02] transition-all duration-700 bg-white dark:bg-gray-900">
+                    <div className="absolute inset-0">
                       <img
                         src="/david portrat.jpg"
                         alt="David Ombugadu"
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-cover object-top group-hover/billboard:scale-110 transition-transform duration-1000"
                       />
-                      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-12">
-                        <h3 className="text-3xl font-bold text-white mb-1">David Ombugadu</h3>
-                        <p className="text-green-300 font-medium flex items-center gap-2">
-                          <TrendingUp className="h-4 w-4" /> Vision 2027
-                        </p>
-                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-900/90 via-green-900/40 to-transparent"></div>
                     </div>
-                    <div className="p-8 flex flex-col flex-1">
-                      <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed flex-1">
-                        "Leadership is about service, not position. Join me in building a sustainable and inclusive future for Nasarawa."
-                      </p>
-                      <div className="space-y-4">
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {['Education', 'Healthcare', 'Infrastructure'].map(tag => (
-                            <Badge key={tag} variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <Button className="w-full bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/20 text-lg py-6 rounded-xl">
-                          View Campaign details <ArrowRight className="ml-2 h-5 w-5" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </motion.div>
 
-            {/* Ambode Card */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <Link to="/campaign/ambode-2027">
-                <Card className="glass-card border-none overflow-hidden h-full hover:shadow-2xl transition-all duration-300 group bg-white/60 dark:bg-black/40">
-                  <CardContent className="p-0 flex flex-col h-full">
-                    <div className="relative h-64 overflow-hidden bg-gray-200 dark:bg-gray-800">
-                      {/* Placeholder for Ambode since specific image not confirmed, using a generic professional placeholder or abstract if preferred. User asked for 'cropped pictures'. Using a placeholder that looks like a person */}
-                      <img
-                        src="https://placehold.co/600x400/2563EB/FFFFFF/png?text=Ambode+2027"
-                        alt="Ambode"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-12">
-                        <h3 className="text-3xl font-bold text-white mb-1">Akinwunmi Ambode</h3>
-                        <p className="text-blue-300 font-medium flex items-center gap-2">
-                          <TrendingUp className="h-4 w-4" /> Progress 2027
-                        </p>
-                      </div>
-                    </div>
-                    <div className="p-8 flex flex-col flex-1">
-                      <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed flex-1">
-                        "Experience that counts. A proven track record of excellence and a bold vision for our collective prosperity."
+                    <CardContent className="relative h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl text-white">
+                      <Badge className="w-fit mb-6 bg-green-500/20 backdrop-blur-md text-green-300 border-none px-4 py-1.5 font-black uppercase tracking-widest text-xs">
+                        Sponsored Campaign
+                      </Badge>
+                      <h3 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
+                        David <span className="text-green-400">Ombugadu</span>
+                      </h3>
+                      <p className="text-xl text-gray-200 mb-8 leading-relaxed line-clamp-3">
+                        "Unlocking Nasarawa's potential through innovation and selfless leadership. Building a future where every voice matters."
                       </p>
-                      <div className="space-y-4">
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {['Economy', 'Security', 'Innovation'].map(tag => (
-                            <Badge key={tag} variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20 text-lg py-6 rounded-xl">
-                          View Campaign details <ArrowRight className="ml-2 h-5 w-5" />
-                        </Button>
+                      <div className="flex flex-wrap gap-3 mb-10">
+                        {['Health Revolution', 'Tech Nasarawa', 'Agro-Economy'].map(tag => (
+                          <span key={tag} className="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/20">
+                            {tag}
+                          </span>
+                        ))}
                       </div>
+                      <Button className="w-fit bg-green-600 hover:bg-green-700 text-white px-10 h-14 rounded-2xl font-black uppercase tracking-[3px] text-xs shadow-xl shadow-green-600/30">
+                        Join the Movement <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
+
+              {/* Ambode Billboard */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="min-w-[90vw] md:min-w-[800px] lg:min-w-[900px] snap-center"
+              >
+                <Link to="/campaign/ambode-2027">
+                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.02] transition-all duration-700 bg-white dark:bg-gray-900">
+                    <div className="absolute inset-0">
+                      <img
+                        src="https://placehold.co/1200x600/2563EB/FFFFFF/png?text=Akinwunmi+Ambode"
+                        alt="Ambode"
+                        className="w-full h-full object-cover group-hover/billboard:scale-110 transition-transform duration-1000"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-900/40 to-transparent"></div>
                     </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </motion.div>
+
+                    <CardContent className="relative h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl text-white">
+                      <Badge className="w-fit mb-6 bg-blue-500/20 backdrop-blur-md text-blue-300 border-none px-4 py-1.5 font-black uppercase tracking-widest text-xs">
+                        Sponsored Campaign
+                      </Badge>
+                      <h3 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
+                        Akinwunmi <span className="text-blue-400">Ambode</span>
+                      </h3>
+                      <p className="text-xl text-gray-200 mb-8 leading-relaxed line-clamp-3">
+                        "A legacy of progress, a future of excellence. Together, let's redefine the standard of governance in 2027."
+                      </p>
+                      <div className="flex flex-wrap gap-3 mb-10">
+                        {['Urban Reform', 'Economic Growth', 'Unified Vision'].map(tag => (
+                          <span key={tag} className="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/20">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <Button className="w-fit bg-blue-600 hover:bg-blue-700 text-white px-10 h-14 rounded-2xl font-black uppercase tracking-[3px] text-xs shadow-xl shadow-blue-600/30">
+                        Support the Vision <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Scroll Indicator Hint */}
+            <div className="flex justify-center gap-2 mt-4">
+              <div className="h-1.5 w-12 bg-[#F15A24] rounded-full" />
+              <div className="h-1.5 w-1.5 bg-gray-300 dark:bg-gray-700 rounded-full" />
+            </div>
           </div>
         </div>
       </section>

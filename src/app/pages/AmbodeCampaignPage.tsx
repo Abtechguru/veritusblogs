@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'motion/react';
-import { 
-  Users, 
-  Heart, 
-  Lightbulb, 
-  Building2, 
-  GraduationCap, 
+import {
+  Users,
+  Heart,
+  Lightbulb,
+  Building2,
+  GraduationCap,
   Stethoscope,
   Leaf,
   Shield,
@@ -14,7 +14,9 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  Youtube
+  Youtube,
+  Megaphone,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
@@ -22,11 +24,19 @@ import { Input } from '../components/ui/input';
 import { Separator } from '../components/ui/separator';
 import { toast } from 'sonner';
 import { SERVER_URL } from '../lib/supabase';
-import { publicAnonKey } from '/utils/supabase/info';
+import { publicAnonKey } from '../../../utils/supabase/info';
+import { DonationSection } from '../components/campaign/DonationSection';
+import { VolunteerForm } from '../components/campaign/VolunteerForm';
 
 export function AmbodeCampaignPage() {
+  const donationRef = useRef<HTMLDivElement>(null);
+  const volunteerRef = useRef<HTMLDivElement>(null);
   const [email, setEmail] = React.useState('');
   const [isSubscribing, setIsSubscribing] = React.useState(false);
+
+  const scrollTo = (ref: React.RefObject<HTMLDivElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,7 +121,7 @@ export function AmbodeCampaignPage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
-        
+
         <div className="relative container mx-auto px-4 py-20 md:py-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -122,27 +132,36 @@ export function AmbodeCampaignPage() {
             <div className="inline-block bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
               <p className="text-sm font-semibold uppercase tracking-wide">Campaign 2027</p>
             </div>
-            
+
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               AMBODE 2027
             </h1>
-            
+
             <p className="text-xl md:text-2xl mb-4 text-blue-100">
               A Vision for Progress, Prosperity, and People
             </p>
-            
+
             <p className="text-lg md:text-xl mb-8 text-blue-200 max-w-2xl mx-auto">
               Together, we can build a future where every citizen has access to quality education, healthcare, and opportunities for growth.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-blue-700 hover:bg-blue-50 text-lg px-8 py-6">
+              <Button
+                size="lg"
+                onClick={() => scrollTo(volunteerRef)}
+                className="bg-white text-blue-700 hover:bg-blue-50 text-lg px-8 py-6 font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-white/10"
+              >
                 <Users className="mr-2 h-5 w-5" />
                 Join the Movement
               </Button>
-              <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 text-lg px-8 py-6">
+              <Button
+                size="lg"
+                onClick={() => scrollTo(donationRef)}
+                variant="outline"
+                className="border-2 border-white text-white hover:bg-white/10 text-lg px-8 py-6 font-black uppercase tracking-widest rounded-2xl"
+              >
                 <Heart className="mr-2 h-5 w-5" />
-                Support Our Vision
+                Donate Now
               </Button>
             </div>
           </motion.div>
@@ -171,8 +190,8 @@ export function AmbodeCampaignPage() {
               Our Vision
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              To create a society where every citizen, regardless of background, has equal access to opportunities, 
-              quality services, and a platform to achieve their dreams. We envision a future built on transparency, 
+              To create a society where every citizen, regardless of background, has equal access to opportunities,
+              quality services, and a platform to achieve their dreams. We envision a future built on transparency,
               accountability, and inclusive development.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
@@ -239,8 +258,8 @@ export function AmbodeCampaignPage() {
         </div>
       </section>
 
-      {/* Achievements */}
-      <section className="py-16 md:py-24 bg-white dark:bg-gray-800">
+      {/* Achievements Section */}
+      <section className="py-24 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -249,10 +268,10 @@ export function AmbodeCampaignPage() {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-900 dark:text-white">
-              Proven Track Record
+            <h2 className="text-4xl md:text-5xl font-black mb-12 text-center text-gray-900 dark:text-white leading-tight">
+              A Legacy of <span className="text-blue-600 italic">Excellence.</span>
             </h2>
-            <div className="space-y-4">
+            <div className="grid gap-6">
               {achievements.map((achievement, index) => (
                 <motion.div
                   key={index}
@@ -260,18 +279,80 @@ export function AmbodeCampaignPage() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="flex items-start gap-4 p-4 rounded-lg bg-blue-50 dark:bg-blue-950"
+                  className="flex items-start gap-6 p-6 rounded-[2rem] bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all"
                 >
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-blue-600/20">
                     {index + 1}
                   </div>
-                  <p className="text-gray-700 dark:text-gray-200 pt-1">
+                  <p className="text-gray-700 dark:text-gray-200 pt-1 text-lg leading-relaxed font-medium">
                     {achievement}
                   </p>
                 </motion.div>
               ))}
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Real-time Donation Tracking */}
+      <div ref={donationRef}>
+        <DonationSection />
+      </div>
+
+      {/* Join the Movement / Volunteer Section */}
+      <section ref={volunteerRef} className="py-32 relative overflow-hidden bg-slate-50 dark:bg-gray-950">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row gap-20 items-center">
+            <div className="lg:w-1/2">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black mb-6 uppercase tracking-[4px] text-xs">
+                  <Megaphone className="h-4 w-4" />
+                  Become a Partner in Progress
+                </div>
+                <h2 className="text-4xl md:text-6xl font-black mb-8 text-gray-900 dark:text-white leading-tight">
+                  Your Leadership <span className="text-blue-600 italic">Counts.</span> <br /> Join the Frontline.
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-10 text-xl leading-relaxed">
+                  The journey to 2027 requires every hand on deck. Join our network of dedicated citizens working to build a more prosperous and inclusive society.
+                </p>
+
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <div className="flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-gray-900 shadow-xl border border-gray-100 dark:border-gray-800">
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 shrink-0">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Volunteer</h4>
+                      <p className="text-sm text-gray-500">Mobilize voters and educate communities.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-gray-900 shadow-xl border border-gray-100 dark:border-gray-800">
+                    <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 shrink-0">
+                      <Sparkles className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Supporter</h4>
+                      <p className="text-sm text-gray-500">Contribute expertise and digital presence.</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="lg:w-1/2 w-full">
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <VolunteerForm />
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -297,11 +378,11 @@ export function AmbodeCampaignPage() {
                 type="email"
                 placeholder="Enter your email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/60"
               />
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isSubscribing}
                 className="bg-white text-blue-700 hover:bg-blue-50"
               >
