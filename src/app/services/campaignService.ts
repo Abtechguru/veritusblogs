@@ -6,6 +6,7 @@ export interface Donator {
     amount: number;
     message?: string;
     timestamp: string;
+    campaign_id?: string;
 }
 
 export interface Volunteer {
@@ -15,52 +16,136 @@ export interface Volunteer {
     email: string;
     message?: string;
     type: 'volunteer' | 'supporter';
+    campaign_id?: string;
 }
 
-const MOCK_DONATORS: Donator[] = [
-    { id: '1', name: 'John Doe', amount: 500, message: 'Keep up the good work!', timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString() },
-    { id: '2', name: 'Sarah Smith', amount: 1000, message: 'For a better Nasarawa!', timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString() },
-    { id: '3', name: 'Alhaji Musa', amount: 2500, message: 'Support from Keffi.', timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString() },
-    { id: '4', name: 'Chioma Okoro', amount: 150, message: 'Every bit helps.', timestamp: new Date(Date.now() - 1000 * 30).toISOString() },
-];
-
 export const campaignService = {
-    async getDonators(): Promise<Donator[]> {
-        // In a real app, we would fetch from 'donations' table
-        // For now, we return mock data combined with any local storage data
-        const localDonations = JSON.parse(localStorage.getItem('campaign_donations') || '[]');
-        return [...localDonations, ...MOCK_DONATORS].sort((a, b) =>
-            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-        );
+    /**
+     * Fetch all donations from Supabase
+     * @param campaignId - Optional campaign ID to filter donations
+     */
+    async getDonators(campaignId?: string): Promise<Donator[]> {
+        try {
+            let query = supabase
+                .from('campaign_donations')
+                .select('*')
+                .order('timestamp', { ascending: false });
+
+            if (campaignId) {
+                query = query.eq('campaign_id', campaignId);
+            }
+
+            const { data, error } = await query;
+
+            if (error) {
+                console.error('Error fetching donations:', error);
+                throw new Error('Failed to fetch donations');
+            }
+
+            return data || [];
+        } catch (error) {
+            console.error('Error in getDonators:', error);
+            return [];
+        }
     },
 
-    async getTotalDonations(): Promise<number> {
-        const donators = await this.getDonators();
-        return donators.reduce((sum, d) => sum + d.amount, 0);
+    /**
+     * Get total donation amount
+     * @param campaignId - Optional campaign ID to filter donations
+     */
+    async getTotalDonations(campaignId?: string): Promise<number> {
+        try {
+            const donators = await this.getDonators(campaignId);
+            return donators.reduce((sum, d) => sum + d.amount, 0);
+        } catch (error) {
+            console.error('Error calculating total donations:', error);
+            return 0;
+        }
     },
 
+    /**
+     * Add a new donation to the database
+     * @param donation - Donation data without id and timestamp
+     */
     async addDonation(donation: Omit<Donator, 'id' | 'timestamp'>): Promise<Donator> {
-        const newDonation: Donator = {
-            ...donation,
-            id: Math.random().toString(36).substr(2, 9),
-            timestamp: new Date().toISOString()
-        };
+        try {
+            const newDonation = {
+                ...donation,
+                timestamp: new Date().toISOString(),
+                campaign_id: donation.campaign_id || 'david-ombugadu-2027'
+            };
 
-        const localDonations = JSON.parse(localStorage.getItem('campaign_donations') || '[]');
-        localStorage.setItem('campaign_donations', JSON.stringify([newDonation, ...localDonations]));
+            const { data, error } = await supabase
+                .from('campaign_donations')
+                .insert([newDonation])
+                .select()
+                .single();
 
-        return newDonation;
+            if (error) {
+                console.error('Error adding donation:', error);
+                throw new Error('Failed to add donation');
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Error in addDonation:', error);
+            throw error;
+        }
     },
 
+    /**
+     * Sign up a volunteer or supporter
+     * @param data - Volunteer data without id
+     */
     async signUpVolunteer(data: Omit<Volunteer, 'id'>): Promise<void> {
-        const { error } = await supabase
-            .from('campaign_signups')
-            .insert([data]);
+        try {
+            const signupData = {
+                ...data,
+                campaign_id: data.campaign_id || 'david-ombugadu-2027',
+                created_at: new Date().toISOString()
+            };
 
-        if (error) {
-            console.warn('Supabase insert failed, falling back to local storage:', error);
-            const signups = JSON.parse(localStorage.getItem('campaign_signups') || '[]');
-            localStorage.setItem('campaign_signups', JSON.stringify([...signups, data]));
+            const { error } = await supabase
+                .from('campaign_signups')
+                .insert([signupData]);
+
+            if (error) {
+                console.error('Error signing up volunteer:', error);
+                throw new Error('Failed to sign up volunteer');
+            }
+        } catch (error) {
+            console.error('Error in signUpVolunteer:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Get recent donations count
+     * @param campaignId - Optional campaign ID
+     * @param limit - Number of recent donations to fetch
+     */
+    async getRecentDonationsCount(campaignId?: string, limit: number = 10): Promise<number> {
+        try {
+            let query = supabase
+                .from('campaign_donations')
+                .select('id', { count: 'exact', head: true })
+                .limit(limit);
+
+            if (campaignId) {
+                query = query.eq('campaign_id', campaignId);
+            }
+
+            const { count, error } = await query;
+
+            if (error) {
+                console.error('Error fetching donations count:', error);
+                return 0;
+            }
+
+            return count || 0;
+        } catch (error) {
+            console.error('Error in getRecentDonationsCount:', error);
+            return 0;
         }
     }
 };

@@ -296,7 +296,7 @@ export function AmbodeCampaignPage() {
 
       {/* Real-time Donation Tracking */}
       <div ref={donationRef}>
-        <DonationSection />
+        <DonationSection campaignId="ambode-2027" />
       </div>
 
       {/* Join the Movement / Volunteer Section */}

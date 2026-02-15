@@ -442,7 +442,7 @@ export const CampaignPage = () => {
 
       {/* Real-time Donation Tracking */}
       <div ref={donationRef}>
-        <DonationSection />
+        <DonationSection campaignId="david-ombugadu-2027" />
       </div>
 
       {/* Latest Updates */}

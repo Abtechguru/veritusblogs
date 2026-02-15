@@ -8,7 +8,11 @@ import { campaignService, Donator } from '../../services/campaignService';
 import { toast } from 'sonner';
 import { PayPalButtons } from '@paypal/react-paypal-js';
 
-export const DonationSection = () => {
+interface DonationSectionProps {
+    campaignId?: string;
+}
+
+export const DonationSection = ({ campaignId = 'david-ombugadu-2027' }: DonationSectionProps) => {
     const [donators, setDonators] = useState<Donator[]>([]);
     const [total, setTotal] = useState(0);
     const [showPaypal, setShowPaypal] = useState(false);
@@ -16,16 +20,16 @@ export const DonationSection = () => {
 
     useEffect(() => {
         fetchDonations();
-        // Simulate real-time updates
+        // Refresh every 10 seconds for real-time updates
         const interval = setInterval(fetchDonations, 10000);
         return () => clearInterval(interval);
-    }, []);
+    }, [campaignId]);
 
     const fetchDonations = async () => {
         try {
             const [allDonators, totalAmount] = await Promise.all([
-                campaignService.getDonators(),
-                campaignService.getTotalDonations()
+                campaignService.getDonators(campaignId),
+                campaignService.getTotalDonations(campaignId)
             ]);
             setDonators(allDonators);
             setTotal(totalAmount);
@@ -135,13 +139,18 @@ export const DonationSection = () => {
                                             onApprove={async (_data, actions) => {
                                                 if (actions.order) {
                                                     const details = await actions.order.capture();
-                                                    const name = details.payer?.name?.given_name || "Anonymous Supporter";
+                                                    // Get full name from PayPal payer info
+                                                    const givenName = details.payer?.name?.given_name || '';
+                                                    const surname = details.payer?.name?.surname || '';
+                                                    const fullName = `${givenName} ${surname}`.trim() || 'Anonymous Supporter';
+
                                                     await campaignService.addDonation({
-                                                        name: name,
+                                                        name: fullName,
                                                         amount: parseFloat(customAmount),
-                                                        message: 'Donated via PayPal'
+                                                        message: 'Donated via PayPal',
+                                                        campaign_id: campaignId
                                                     });
-                                                    toast.success(`Thank you, ${name}! Your donation has been received.`);
+                                                    toast.success(`Thank you, ${givenName || 'Supporter'}! Your donation has been received.`);
                                                     setShowPaypal(false);
                                                     setCustomAmount('');
                                                     fetchDonations();

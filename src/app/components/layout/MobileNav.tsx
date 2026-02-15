@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { cn } from '../../lib/utils';
+import { motion } from 'framer-motion';
 
 export const MobileNav = () => {
     const { user, isAuthor } = useAuth();
@@ -32,8 +33,8 @@ export const MobileNav = () => {
     ];
 
     return (
-        <nav className="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-800/50 pb-safe shadow-[0_-8px_30px_rgb(0,0,0,0.08)]">
-            <div className="flex justify-around items-center h-16 sm:h-20 px-4">
+        <nav className="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/70 dark:bg-black/40 backdrop-blur-2xl border-t border-primary-100/10 dark:border-primary-800/10 pb-safe shadow-premium-lg">
+            <div className="flex justify-around items-center h-20 px-4">
                 {navItems.map((item) => {
                     const active = isActive(item.path);
                     const Icon = item.icon;
@@ -43,28 +44,31 @@ export const MobileNav = () => {
                             key={item.path}
                             to={item.path}
                             className={cn(
-                                "flex flex-col items-center justify-center space-y-1 transition-all duration-300 w-full h-full relative group",
-                                active ? "text-[#F15A24]" : "text-gray-500 dark:text-gray-400"
+                                "flex flex-col items-center justify-center space-y-1.5 transition-all duration-500 w-full h-full relative group",
+                                active ? "text-primary-600" : "text-text-tertiary"
                             )}
                         >
-                            {/* Active Indicator Bar */}
+                            {/* Cinematic Active Indicator Bar */}
                             {active && (
-                                <div className="absolute top-0 w-8 h-1 bg-gradient-to-r from-[#F15A24] to-[#C2410C] rounded-full shadow-[0_4px_12px_rgba(241,90,36,0.4)]" />
+                                <motion.div
+                                    layoutId="mobileNavActive"
+                                    className="absolute -top-px w-12 h-1 bg-gradient-to-r from-primary-600 to-indigo-400 rounded-full shadow-[0_4px_12px_rgba(79,70,229,0.3)]"
+                                />
                             )}
 
                             <div className={cn(
-                                "p-1.5 rounded-xl transition-all duration-300",
-                                active ? "bg-orange-50 dark:bg-orange-900/10 scale-110" : "group-hover:bg-gray-100 dark:group-hover:bg-gray-800"
+                                "p-2 rounded-2xl transition-all duration-500 relative",
+                                active ? "bg-primary-50 dark:bg-primary-900/20 scale-110 shadow-premium-sm" : "group-hover:bg-primary-50/50 dark:group-hover:bg-primary-900/10"
                             )}>
                                 <Icon className={cn(
-                                    "h-6 w-6 transition-transform duration-300",
-                                    active ? "stroke-[2.5px]" : "stroke-[2px]"
+                                    "h-6 w-6 transition-all duration-500",
+                                    active ? "stroke-[2.5px] drop-shadow-sm" : "stroke-[2px]"
                                 )} />
                             </div>
 
                             <span className={cn(
-                                "text-[10px] sm:text-xs font-bold leading-none tracking-tight transition-all pb-1",
-                                active ? "opacity-100" : "opacity-80"
+                                "text-[10px] font-black leading-none tracking-[0.1em] uppercase transition-all duration-500",
+                                active ? "opacity-100 translate-y-0" : "opacity-60 translate-y-0.5"
                             )}>
                                 {item.label}
                             </span>

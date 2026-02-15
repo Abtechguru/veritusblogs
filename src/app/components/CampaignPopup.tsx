@@ -111,98 +111,86 @@ export function CampaignPopup({ interval = 300000 }: CampaignPopupProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-md sm:max-w-lg p-0 overflow-hidden border-2 border-primary/50 shadow-2xl">
-        {/* Accessible title and description (visually hidden) */}
+      <DialogContent className="max-w-md sm:max-w-xl p-0 overflow-hidden border-none shadow-premium-xl bg-transparent">
         <VisuallyHidden>
           <DialogTitle>{campaign.title} Campaign</DialogTitle>
-          <DialogDescription>
-            {campaign.description}
-          </DialogDescription>
+          <DialogDescription>{campaign.description}</DialogDescription>
         </VisuallyHidden>
 
-        {/* Close button - optimized size */}
         <DialogClose
-          className="absolute right-2 top-2 sm:right-3 sm:top-3 z-10 rounded-full bg-black/30 hover:bg-black/50 p-1.5 sm:p-2 transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
-          aria-label="Close campaign popup"
+          className="absolute right-4 top-4 z-50 rounded-2xl bg-white/10 hover:bg-white/20 p-2.5 backdrop-blur-xl border border-white/20 transition-all focus:outline-none"
+          aria-label="Close"
         >
-          <X className="h-4 w-4 text-white" />
-          <span className="sr-only">Close</span>
+          <X className="h-5 w-5 text-white" />
         </DialogClose>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="relative"
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="relative bg-primary-950 rounded-[40px] overflow-hidden"
         >
-          {/* Campaign Banner - Reduced height for mobile */}
-          <div className={`relative h-36 sm:h-48 bg-gradient-to-br ${campaign.gradient}`}>
-            {/* Grid pattern overlay */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+          {/* Animated Background Layer */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${campaign.gradient} opacity-40`} />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
 
-            <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-              <motion.div
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                {/* Responsive title sizing */}
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
-                  {campaign.title}
-                </h2>
-                <p className="text-sm sm:text-base md:text-lg text-white/90 font-medium">
-                  {campaign.subtitle}
-                </p>
-              </motion.div>
-            </div>
-          </div>
+          <div className="relative p-8 sm:p-12">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-center mb-10"
+            >
+              <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[10px] font-black text-primary-200 uppercase tracking-[0.3em] mb-6">
+                Editorial Spotlight
+              </div>
+              <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tighter font-heading uppercase">
+                {campaign.title}
+              </h2>
+              <p className="text-lg text-primary-100/80 font-bold max-w-sm mx-auto leading-tight italic">
+                "{campaign.subtitle}"
+              </p>
+            </motion.div>
 
-          {/* Campaign Content - Optimized padding */}
-          <div className="bg-white dark:bg-gray-900 p-4 sm:p-6">
-            <div className="space-y-3 sm:space-y-4">
-              <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white">
-                Join the Movement
-              </h3>
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+            <div className="space-y-8">
+              <p className="text-sm sm:text-base text-primary-50/70 text-center leading-relaxed font-bold">
                 {campaign.description}
               </p>
 
-              {/* Pillars - Simplified for mobile */}
-              <div className="grid grid-cols-3 gap-2 pt-2">
+              <div className="grid grid-cols-3 gap-4">
                 {campaign.pillars.map((pillar, idx) => (
                   <div
                     key={idx}
-                    className={`text-center p-2 sm:p-3 bg-${pillar.color}-50 dark:bg-${pillar.color}-950 rounded-lg transition-colors hover:bg-${pillar.color}-100 dark:hover:bg-${pillar.color}-900`}
+                    className="group relative px-2 py-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md text-center transition-all hover:bg-white/10 hover:border-white/30"
                   >
-                    <h4 className={`font-bold text-xs sm:text-sm text-${pillar.color}-900 dark:text-${pillar.color}-100`}>
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-primary-400 rounded-full group-hover:w-8 transition-all" />
+                    <span className="text-[10px] font-black text-primary-200 uppercase tracking-widest leading-tight block">
                       {pillar.name}
-                    </h4>
+                    </span>
                   </div>
                 ))}
               </div>
 
-              {/* Action buttons - Responsive sizing */}
-              <div className="flex flex-col sm:flex-row gap-2 pt-3">
+              <div className="flex flex-col gap-4 pt-4">
                 <Button
                   asChild
-                  className={`flex-1 ${campaign.buttonColor} text-white shadow-md hover:shadow-lg transition-all touch-target`}
-                  size="sm"
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-black text-xs tracking-[0.2em] h-16 shadow-premium-md uppercase"
                 >
                   <Link to={campaign.link} onClick={handleClose}>
                     {campaign.buttonText}
                   </Link>
                 </Button>
-                <Button
-                  variant="outline"
+                <button
                   onClick={handleClose}
-                  size="sm"
-                  className="flex-1 touch-target hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="w-full text-white/40 hover:text-white/80 transition-colors text-[10px] font-black tracking-[0.1em] uppercase"
                 >
-                  Maybe Later
-                </Button>
+                  Return to reading
+                </button>
               </div>
             </div>
           </div>
+
+          {/* Bottom highlight bar */}
+          <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
         </motion.div>
       </DialogContent>
     </Dialog>

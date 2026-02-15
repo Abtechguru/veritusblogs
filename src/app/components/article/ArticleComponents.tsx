@@ -22,19 +22,20 @@ export function ReadingProgress() {
     return (
         <>
             <motion.div
-                className="fixed top-0 left-0 right-0 h-1 bg-[#F15A24] origin-left z-50"
+                className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-600 via-primary-500 to-indigo-400 origin-left z-[60]"
                 style={{ scaleX }}
             />
             <motion.div
-                className="fixed bottom-4 right-4 glass-card rounded-full px-4 py-2 text-sm z-40 hidden md:block"
+                className="fixed bottom-6 right-6 premium-card px-6 py-3 text-xs z-40 hidden md:block"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
             >
-                <div className="flex items-center gap-2">
-                    <div className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div className="flex items-center gap-4">
+                    <span className="font-black text-primary-600 uppercase tracking-widest">Progress</span>
+                    <div className="w-24 h-1.5 bg-primary-50 dark:bg-primary-900/40 rounded-full overflow-hidden">
                         <motion.div
-                            className="h-full bg-[#F15A24]"
+                            className="h-full bg-primary-500"
                             style={{ scaleX: scrollYProgress, originX: 0 }}
                         />
                     </div>
@@ -96,14 +97,14 @@ export function TableOfContents({ content, mobile = false }: { content: string; 
 
     if (mobile) {
         return (
-            <div className="border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden bg-white/50 dark:bg-black/40 backdrop-blur-sm">
+            <div className="border border-primary-100/10 dark:border-primary-800/10 rounded-2xl overflow-hidden bg-white/50 dark:bg-black/40 backdrop-blur-xl">
                 <Button
                     variant="ghost"
-                    className="w-full flex items-center justify-between p-4 h-auto hover:bg-black/5 dark:hover:bg-white/5"
+                    className="w-full flex items-center justify-between p-6 h-auto hover:bg-primary-50 dark:hover:bg-primary-900/30"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <span className="flex items-center gap-2 font-semibold text-gray-900 dark:text-gray-100">
-                        <List className="h-4 w-4" />
+                    <span className="flex items-center gap-2 font-black text-text-primary uppercase tracking-widest text-xs">
+                        <List className="h-4 w-4 text-primary-500" />
                         Table of Contents
                     </span>
                     <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -114,15 +115,15 @@ export function TableOfContents({ content, mobile = false }: { content: string; 
                         initial={{ height: 0 }}
                         animate={{ height: 'auto' }}
                         exit={{ height: 0 }}
-                        className="border-t border-gray-200 dark:border-gray-800"
+                        className="border-t border-primary-100/10 dark:border-primary-800/10"
                     >
-                        <nav className="p-4">
-                            <ul className="space-y-2">
+                        <nav className="p-6">
+                            <ul className="space-y-4">
                                 {headings.map((heading) => (
                                     <li key={heading.id} style={{ marginLeft: heading.level === 3 ? '1rem' : 0 }}>
                                         <a
                                             href={`#${heading.id}`}
-                                            className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-[#F15A24] dark:hover:text-[#F15A24] transition-colors block py-1"
+                                            className="text-sm font-bold text-text-secondary hover:text-primary-600 transition-colors block py-1"
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {heading.text}
@@ -138,25 +139,25 @@ export function TableOfContents({ content, mobile = false }: { content: string; 
     }
 
     return (
-        <nav className="border-l-2 border-gray-200 dark:border-gray-700 pl-4">
-            <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wider">
+        <nav className="border-l border-primary-100 dark:border-primary-800/50 pl-6">
+            <h4 className="text-[10px] font-black text-text-tertiary mb-6 uppercase tracking-[0.2em]">
                 On this page
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-4">
                 {headings.map((heading) => (
                     <motion.li
                         key={heading.id}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3 }}
-                        style={{ marginLeft: heading.level === 3 ? '0.75rem' : 0 }}
+                        style={{ marginLeft: heading.level === 3 ? '1rem' : 0 }}
                     >
                         <a
                             href={`#${heading.id}`}
-                            className={`text-sm transition-all duration-200 block py-1
+                            className={`text-sm transition-all duration-300 block py-1
                 ${activeId === heading.id
-                                    ? 'text-[#F15A24] font-bold border-l-2 border-[#F15A24] -ml-[1.15rem] pl-3'
-                                    : 'text-gray-600 dark:text-gray-400 hover:text-[#F15A24] dark:hover:text-[#F15A24]'
+                                    ? 'text-primary-600 font-bold border-l-2 border-primary-500 -ml-[1.6rem] pl-6'
+                                    : 'text-text-secondary hover:text-primary-500'
                                 }`}
                             onClick={(e) => {
                                 e.preventDefault();
@@ -199,23 +200,24 @@ export function ArticleContent({ content }: { content: string }) {
             <div
                 ref={contentRef}
                 className="prose prose-lg dark:prose-invert max-w-none
-          prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
-          prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-          prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-          prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed
-          prose-a:text-[#F15A24] hover:prose-a:text-[#C2410C]
-          prose-blockquote:border-l-4 prose-blockquote:border-[#F15A24] prose-blockquote:pl-4
-          prose-blockquote:italic prose-blockquote:text-gray-700 dark:prose-blockquote:text-gray-300
-          prose-strong:text-gray-900 dark:prose-strong:text-white
-          prose-ul:list-disc prose-ul:pl-6
-          prose-ol:list-decimal prose-ol:pl-6
-          prose-li:my-1
-          prose-img:rounded-xl prose-img:shadow-lg prose-img:mx-auto prose-img:w-auto prose-img:max-h-[400px] prose-img:object-contain prose-img:my-8 prose-img:block
-          prose-figure:my-8
-          prose-figcaption:text-center prose-figcaption:text-sm prose-figcaption:text-gray-500
+          prose-headings:font-black prose-headings:text-text-primary prose-headings:tracking-tighter
+          prose-h2:text-4xl prose-h2:mt-16 prose-h2:mb-8
+          prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-6
+          prose-p:text-text-secondary prose-p:leading-[1.8] prose-p:text-lg
+          prose-a:text-primary-600 hover:prose-a:text-primary-700 prose-a:font-bold prose-a:underline-offset-4
+          prose-blockquote:border-l-4 prose-blockquote:border-primary-500 prose-blockquote:pl-8
+          prose-blockquote:py-2 prose-blockquote:my-10
+          prose-blockquote:italic prose-blockquote:text-text-primary prose-blockquote:bg-primary-50/30 dark:prose-blockquote:bg-primary-900/10
+          prose-strong:text-text-primary prose-strong:font-black
+          prose-ul:list-disc prose-ul:pl-8
+          prose-ol:list-decimal prose-ol:pl-8
+          prose-li:my-3
+          prose-img:rounded-[32px] prose-img:shadow-premium-lg prose-img:mx-auto prose-img:w-full prose-img:max-h-[600px] prose-img:object-cover prose-img:my-12 prose-img:block
+          prose-figure:my-12
+          prose-figcaption:text-center prose-figcaption:text-sm prose-figcaption:text-text-tertiary prose-figcaption:font-bold prose-figcaption:mt-4
           prose-table:w-full prose-table:border-collapse
-          prose-th:bg-gray-100 dark:prose-th:bg-gray-800 prose-th:p-3 prose-th:text-left
-          prose-td:border prose-td:border-gray-200 dark:prose-td:border-gray-700 prose-td:p-3
+          prose-th:bg-primary-50 dark:prose-th:bg-primary-900/40 prose-th:p-4 prose-th:text-left
+          prose-td:border prose-td:border-primary-100 dark:prose-td:border-primary-800 prose-td:p-4
         "
                 dangerouslySetInnerHTML={{ __html: content }}
             />

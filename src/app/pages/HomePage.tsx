@@ -2,402 +2,364 @@ import { Link } from 'react-router';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { ArrowRight, TrendingUp, Clock, Eye, Heart, MessageCircle, Megaphone } from 'lucide-react';
-import { mockArticles, categories, getFeaturedArticles } from '../data/mockData';
+import { ArrowRight, Heart, MessageCircle, Flame, Search as SearchIcon, Clock } from 'lucide-react';
+import { mockArticles } from '../data/mockData';
 import { motion } from 'motion/react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { useEffect, useState } from 'react';
 import { campaignService } from '../services/campaignService';
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { useGamificationStore } from '../store/gamificationStore';
+import { Trophy, Star, Zap } from 'lucide-react';
+import ThemeSwitcher from '../components/ThemeSwitcher';
+import AmbientBackground from '../components/AmbientBackground';
 
 export const HomePage = () => {
-  const featuredArticles = getFeaturedArticles();
-  const latestArticles = mockArticles.slice(0, 6);
+  const { xp } = useGamificationStore();
   const [totalDonations, setTotalDonations] = useState(0);
+  const [activeTab, setActiveTab] = useState('all');
 
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
 
   useEffect(() => {
-    campaignService.getTotalDonations().then(setTotalDonations);
+    // Fetch real donation data for David Ombugadu campaign
+    campaignService.getTotalDonations('david-ombugadu-2027').then(setTotalDonations);
+
+    // Refresh every 30 seconds to show live updates
+    const interval = setInterval(() => {
+      campaignService.getTotalDonations('david-ombugadu-2027').then(setTotalDonations);
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
+  const dailyGoal = 100;
+  const dailyProgress = Math.min((xp % 1000) / 10, 100); // Mock daily progress based on level XP
+
   return (
-    <div className="min-h-screen text-gray-900 dark:text-gray-100">
-      {/* Hero Section - Keep the bold header but make it blend better or stand out */}
-      <section className="relative overflow-hidden">
-        {/* Background is handled by the global animated background, but we can add a subtle overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
+    <>
+      <AmbientBackground variant="default" />
 
-        <div className="container mx-auto px-4 py-16 sm:py-20 md:py-32 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="max-w-5xl mx-auto text-center"
-          >
-            {/* Responsive Heading */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 sm:mb-8 leading-tight drop-shadow-lg">
-              Welcome to{' '}
-              <span className="block sm:inline bg-gradient-to-r from-[#F15A24] to-[#C2410C] bg-clip-text text-transparent">
-                VERITUS INTERNATIONAL
-              </span>
-            </h1>
+      <div className="min-h-screen text-gray-900 dark:text-gray-100 relative z-10">
+        {/* Hero Section - Keep the bold header but make it blend better or stand out */}
+        <section className="relative overflow-hidden">
+          {/* Background is handled by the global animated background, but we can add a subtle overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
 
-            <p className="text-lg sm:text-xl md:text-2xl mb-10 text-gray-200/90 max-w-3xl mx-auto px-4 leading-relaxed font-medium drop-shadow-md">
-              Your premier destination for quality journalism, cultural insights, and breaking news across Africa and beyond.
-            </p>
-
-            {/* Responsive Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 max-w-md sm:max-w-none mx-auto">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto bg-[#F15A24] hover:bg-[#C2410C] text-white font-bold shadow-lg hover:shadow-[#F15A24]/40 transition-all hover:-translate-y-1 text-lg py-6 px-8 rounded-full"
-                asChild
-              >
-                <Link to="/articles">
-                  Read Latest
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border-white/40 text-white backdrop-blur-md shadow-lg transition-all hover:-translate-y-1 text-lg py-6 px-8 rounded-full"
-                asChild
-              >
-                <Link to="/register">
-                  Subscribe Now
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Campaign Ads Section */}
-      <section className="py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-blue-50/50 dark:from-orange-900/10 dark:to-blue-900/10 -z-10" />
-        <div className="container mx-auto px-4">
-          {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 bg-[#F15A24]/10 text-[#F15A24] px-4 py-1.5 rounded-full mb-4 font-semibold text-sm">
-              <Megaphone className="h-4 w-4" />
-              <span>Election 2027</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black mb-4 text-gray-900 dark:text-white">
-              Meet Our Candidates
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Current total contributions: <span className="text-[#F15A24] font-black">${totalDonations.toLocaleString()}</span>
-            </p>
-          </motion.div>
-
-          {/* Campaign Billboard Slider */}
-          <div className="relative group billboard-mask max-w-7xl mx-auto overflow-hidden" ref={emblaRef}>
-            {/* Scroll Container */}
-            <div className="flex">
-              {/* David Ombugadu Billboard */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="flex-[0_0_100%] min-w-0 px-4 md:px-24"
-              >
-                <Link to="/campaign/david-ombugadu-2027">
-                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.01] transition-all duration-700 bg-white dark:bg-gray-900">
-                    <div className="absolute inset-0">
-                      <img
-                        src="/david portrat.jpg"
-                        alt="David Ombugadu"
-                        className="w-full h-full object-cover object-top group-hover/billboard:scale-110 transition-transform duration-1000"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-green-900/90 via-green-900/40 to-transparent"></div>
-                    </div>
-
-                    <CardContent className="relative h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl text-white">
-                      <Badge className="w-fit mb-6 bg-green-500/20 backdrop-blur-md text-green-300 border-none px-4 py-1.5 font-black uppercase tracking-widest text-xs">
-                        Sponsored Campaign
-                      </Badge>
-                      <h3 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
-                        David <span className="text-green-400">Ombugadu</span>
-                      </h3>
-                      <p className="text-xl text-gray-200 mb-8 leading-relaxed line-clamp-3">
-                        "Unlocking Nasarawa's potential through innovation and selfless leadership. Building a future where every voice matters."
-                      </p>
-                      <div className="flex flex-wrap gap-3 mb-10">
-                        {['Health Revolution', 'Tech Nasarawa', 'Agro-Economy'].map(tag => (
-                          <span key={tag} className="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/20">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <Button className="w-fit bg-green-600 hover:bg-green-700 text-white px-10 h-14 rounded-2xl font-black uppercase tracking-[3px] text-xs shadow-xl shadow-green-600/30">
-                        Join the Movement <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
-
-              {/* Ambode Billboard */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="flex-[0_0_100%] min-w-0 px-4 md:px-24"
-              >
-                <Link to="/campaign/ambode-2027">
-                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.01] transition-all duration-700 bg-white dark:bg-gray-900">
-                    <div className="absolute inset-0">
-                      <img
-                        src="https://placehold.co/1200x600/2563EB/FFFFFF/png?text=Akinwunmi+Ambode"
-                        alt="Ambode"
-                        className="w-full h-full object-cover group-hover/billboard:scale-110 transition-transform duration-1000"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-900/40 to-transparent"></div>
-                    </div>
-
-                    <CardContent className="relative h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl text-white">
-                      <Badge className="w-fit mb-6 bg-blue-500/20 backdrop-blur-md text-blue-300 border-none px-4 py-1.5 font-black uppercase tracking-widest text-xs">
-                        Sponsored Campaign
-                      </Badge>
-                      <h3 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
-                        Akinwunmi <span className="text-blue-400">Ambode</span>
-                      </h3>
-                      <p className="text-xl text-gray-200 mb-8 leading-relaxed line-clamp-3">
-                        "A legacy of progress, a future of excellence. Together, let's redefine the standard of governance in 2027."
-                      </p>
-                      <div className="flex flex-wrap gap-3 mb-10">
-                        {['Urban Reform', 'Economic Growth', 'Unified Vision'].map(tag => (
-                          <span key={tag} className="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/20">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <Button className="w-fit bg-blue-600 hover:bg-blue-700 text-white px-10 h-14 rounded-2xl font-black uppercase tracking-[3px] text-xs shadow-xl shadow-blue-600/30">
-                        Support the Vision <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
-            </div>
-
-            {/* Scroll Indicator Hint */}
-            <div className="flex justify-center gap-2 mt-8 pb-12">
-              <div className="h-1.5 w-12 bg-[#F15A24] rounded-full" />
-              <div className="h-1.5 w-1.5 bg-gray-300 dark:bg-gray-700 rounded-full" />
-              <div className="h-1.5 w-1.5 bg-gray-300 dark:bg-gray-700 rounded-full" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Articles */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-4">
-          <div className="text-center sm:text-left">
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-2 text-gray-900 dark:text-white drop-shadow-sm">Featured Stories</h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300 font-medium">
-              Top picks from our editorial team
-            </p>
-          </div>
-          <TrendingUp className="h-8 w-8 sm:h-10 sm:w-10 text-[#F15A24] drop-shadow-md" />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredArticles.map((article, index) => (
+          <div className="container mx-auto px-4 py-16 sm:py-20 md:py-32 relative z-10">
             <motion.div
-              key={article.id}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="h-full"
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="max-w-5xl mx-auto text-center"
             >
-              <Link to={`/articles/${article.id}`}>
-                <Card className="glass-card overflow-hidden h-full border-none shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col">
-                  <div className="aspect-video relative overflow-hidden">
-                    <img
-                      src={article.coverImage}
-                      alt={article.title}
-                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <Badge className="absolute top-4 left-4 capitalize bg-[#F15A24] text-white border-none shadow-md">
-                      {article.category.replace('-', ' ')}
-                    </Badge>
-                  </div>
-                  <CardContent className="p-6 flex flex-col flex-1 bg-white/70 dark:bg-black/50 backdrop-blur-lg">
-                    <h3 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-[#F15A24] transition-colors leading-tight text-gray-900 dark:text-white">
-                      {article.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 flex-1 leading-relaxed">
-                      {article.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium mt-auto border-t border-gray-200 dark:border-gray-700/50 pt-4">
-                      <div className="flex items-center gap-4">
-                        <span className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1.5 text-[#F15A24]" />
-                          {article.readTime} min
-                        </span>
-                        <span className="flex items-center">
-                          <Eye className="h-4 w-4 mr-1.5 text-blue-500" />
-                          {article.views.toLocaleString()}
-                        </span>
-                        <span className="flex items-center">
-                          <Heart className="h-4 w-4 mr-1.5 text-red-500" />
-                          {article.likes.toLocaleString()}
-                        </span>
-                        <span className="flex items-center">
-                          <MessageCircle className="h-4 w-4 mr-1.5 text-[#F15A24]" />
-                          {article.commentsCount}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+              {/* Responsive Heading */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 sm:mb-8 leading-tight drop-shadow-lg">
+                Welcome to{' '}
+                <span className="block sm:inline bg-gradient-to-r from-[#F15A24] to-[#C2410C] bg-clip-text text-transparent">
+                  VERITUS INTERNATIONAL
+                </span>
+              </h1>
+
+              <p className="text-lg sm:text-xl md:text-2xl mb-10 text-gray-200/90 max-w-3xl mx-auto px-4 leading-relaxed font-medium drop-shadow-md">
+                Your premier destination for quality journalism, cultural insights, and breaking news across Africa and beyond.
+              </p>
+
+              {/* Responsive Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 max-w-md sm:max-w-none mx-auto">
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto bg-[#F15A24] hover:bg-[#C2410C] text-white font-bold shadow-lg hover:shadow-[#F15A24]/40 transition-all hover:-translate-y-1 text-lg py-6 px-8 rounded-full"
+                  asChild
+                >
+                  <Link to="/articles">
+                    Read Latest
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto bg-white/10 hover:bg-white/20 border-white/40 text-white backdrop-blur-md shadow-lg transition-all hover:-translate-y-1 text-lg py-6 px-8 rounded-full"
+                  asChild
+                >
+                  <Link to="/register">
+                    Subscribe Now
+                  </Link>
+                </Button>
+              </div>
             </motion.div>
-          ))}
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* Categories */}
-      <section className="py-12 md:py-20 relative">
-        <div className="absolute inset-0 bg-white/30 dark:bg-black/20 backdrop-blur-md -z-10" />
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-10 text-center text-gray-900 dark:text-white drop-shadow-sm">
-            Explore by Category
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category.slug}
-                to={`/category/${category.slug}`}
-                className="group"
-              >
-                <Card className="glass-card hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden h-full border-none bg-white/50 dark:bg-black/40 hover:bg-white/80 dark:hover:bg-black/60 group-hover:-translate-y-2">
-                  <CardContent className="p-6 text-center touch-target flex flex-col items-center justify-center h-full">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-[#F15A24] to-[#C2410C] flex items-center justify-center mb-4 text-white shadow-lg group-hover:scale-110 transition-transform">
-                      {/* Placeholder icons based on slug, generic star for now */}
-                      <TrendingUp className="h-6 w-6" />
+        {/* Gamification Strip */}
+        <section className="bg-white/40 dark:bg-black/40 backdrop-blur-xl border-y border-gray-200/50 dark:border-gray-800/50 sticky top-[72px] lg:top-[96px] z-40">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-6">
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Daily XP Goal</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-32 sm:w-48 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${dailyProgress}%` }}
+                        className="h-full bg-gradient-to-r from-teal-500 to-teal-400"
+                      />
                     </div>
-                    <h3 className="font-bold text-lg mb-2 group-hover:text-[#F15A24] transition-colors text-gray-900 dark:text-gray-100">
-                      {category.name}
-                    </h3>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
-                      {category.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Latest Articles */}
-      <section className="container mx-auto px-4 py-12 md:py-24">
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-4">
-          <div className="text-center sm:text-left">
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-2 text-gray-900 dark:text-white">Latest Articles</h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              Stay updated with our newest content
-            </p>
-          </div>
-          <Button variant="outline" asChild className="hover:border-[#F15A24] hover:text-[#F15A24] hover:bg-white/10 backdrop-blur-sm border-gray-400 dark:border-gray-600">
-            <Link to="/articles">
-              View All
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {latestArticles.map((article, index) => (
-            <Link key={article.id} to={`/articles/${article.id}`}>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <Card className="glass-card hover:shadow-xl transition-all duration-300 cursor-pointer h-full group border-none bg-white/40 dark:bg-black/30 overflow-hidden flex flex-col">
-                  <div className="aspect-[16/10] relative overflow-hidden">
-                    <img
-                      src={article.coverImage}
-                      alt={article.title}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                    <span className="text-xs font-black text-teal-600 dark:text-teal-400">{Math.round(dailyProgress)}%</span>
                   </div>
-                  <CardContent className="p-5 flex flex-col flex-1">
-                    <Badge variant="secondary" className="mb-3 capitalize text-xs w-fit shadow-sm">
-                      {article.category.replace('-', ' ')}
-                    </Badge>
-                    <h3 className="text-lg sm:text-xl font-bold mb-3 line-clamp-2 group-hover:text-[#F15A24] transition-colors text-gray-900 dark:text-white leading-tight">
-                      {article.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4 flex-1">
-                      {article.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mt-auto border-t border-gray-200 dark:border-gray-700/50 pt-3">
-                      <span className="truncate mr-2 font-medium">{article.authorName}</span>
-                      <div className="flex items-center gap-3">
-                        <span className="flex items-center gap-1"><Heart className="h-3 w-3" /> {article.likes}</span>
-                        <span className="flex items-center gap-1"><MessageCircle className="h-3 w-3" /> {article.commentsCount}</span>
+                </div>
+                <div className="hidden md:flex items-center gap-2 border-l border-gray-200 dark:border-gray-800 pl-6">
+                  <Trophy className="h-4 w-4 text-amber-500" />
+                  <div>
+                    <p className="text-[10px] font-bold text-gray-500 uppercase leading-none">Global Rank</p>
+                    <p className="text-sm font-black text-gray-900 dark:text-white">#1,254</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar-hide whitespace-nowrap">
+                {[
+                  { label: 'Reading Streak', icon: <Flame className="h-3 w-3" />, color: 'bg-amber-500' },
+                  { label: 'Politics Master', icon: <Star className="h-3 w-3" />, color: 'bg-purple-500' },
+                  { label: 'Mega Donor', icon: <Heart className="h-3 w-3" />, color: 'bg-red-500' },
+                ].map((challenge) => (
+                  <div key={challenge.label} className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg text-[10px] font-black uppercase tracking-wider text-gray-600 dark:text-gray-300">
+                    <span className={`${challenge.color} text-white p-1 rounded-sm`}>{challenge.icon}</span>
+                    {challenge.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Campaign Billboard */}
+        <section className="py-12 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <div className="relative group billboard-mask max-w-7xl mx-auto overflow-hidden" ref={emblaRef}>
+              <div className="flex">
+                {/* David Ombugadu Billboard */}
+                <div className="flex-[0_0_100%] min-w-0 px-2 md:px-8">
+                  <Link to="/campaign/david-ombugadu-2027">
+                    <Card className="relative h-[400px] md:h-[500px] border-none overflow-hidden rounded-[2.5rem] shadow-2xl group/billboard hover-scale bg-navy-900">
+                      <div className="absolute inset-0">
+                        <img
+                          src="/david portrat.jpg"
+                          alt="David Ombugadu"
+                          className="w-full h-full object-cover object-top group-hover/billboard:scale-105 transition-transform duration-1000"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-navy-900 via-navy-900/40 to-transparent"></div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Link>
-          ))}
-        </div>
-      </section>
+                      <CardContent className="relative h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl text-white">
+                        <Badge className="w-fit mb-6 bg-amber-500 text-white border-none px-4 py-1.5 font-black uppercase tracking-widest text-xs">
+                          LIVE CAMPAIGN
+                        </Badge>
+                        <h3 className="text-4xl md:text-6xl font-black mb-4 leading-tight font-heading">
+                          David <span className="text-amber-500">Ombugadu</span>
+                        </h3>
+                        <p className="text-xl text-gray-200 mb-8 leading-relaxed line-clamp-2">
+                          Transforming Nasarawa with innovation and leadership for a brighter 2027.
+                        </p>
+                        <div className="flex items-center gap-6">
+                          <Button className="w-fit bg-amber-500 hover:bg-amber-600 border-none text-navy-900 px-10 h-14 rounded-2xl font-black uppercase tracking-[3px] text-xs shadow-xl shadow-amber-500/30 transition-all">
+                            SUPPORT NOW <Zap className="ml-2 h-4 w-4 fill-current" />
+                          </Button>
+                          <div className="flex flex-col">
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Contributions</span>
+                            <span className="text-2xl font-black text-white">${totalDonations.toLocaleString()}</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </div>
 
-      {/* CTA Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F15A24] via-[#C2410C] to-[#000000] opacity-90 z-0" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 z-0" />
+                {/* Ambode Billboard */}
+                <div className="flex-[0_0_100%] min-w-0 px-2 md:px-8">
+                  <Link to="/campaign/ambode-2027">
+                    <Card className="relative h-[400px] md:h-[500px] border-none overflow-hidden rounded-[2.5rem] shadow-2xl group/billboard hover-scale bg-navy-900">
+                      <div className="absolute inset-0">
+                        <img
+                          src="https://placehold.co/1200x600/0B172A/FFFFFF/png?text=Akinwunmi+Ambode"
+                          alt="Ambode"
+                          className="w-full h-full object-cover group-hover/billboard:scale-105 transition-transform duration-1000"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-navy-900 via-navy-900/40 to-transparent"></div>
+                      </div>
+                      <CardContent className="relative h-full flex flex-col justify-center p-8 md:p-16 max-w-2xl text-white">
+                        <Badge className="w-fit mb-6 bg-teal-500 text-white border-none px-4 py-1.5 font-black uppercase tracking-widest text-xs">
+                          FEATURED CAUSE
+                        </Badge>
+                        <h3 className="text-4xl md:text-6xl font-black mb-4 leading-tight font-heading">
+                          Akinwunmi <span className="text-teal-400">Ambode</span>
+                        </h3>
+                        <p className="text-xl text-gray-200 mb-8 leading-relaxed line-clamp-2">
+                          Redefining urban excellence for a future of Lagos that works for all.
+                        </p>
+                        <Button className="w-fit bg-teal-500 hover:bg-teal-600 border-none text-white px-10 h-14 rounded-2xl font-black uppercase tracking-[3px] text-xs shadow-xl shadow-teal-500/30">
+                          LEARN MORE <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <div className="container mx-auto px-4 text-center relative z-10">
+        {/* 📊 Gamification Strip - Premium Indigo */}
+        <div className="sticky top-20 sm:top-24 lg:top-28 z-40 px-4 py-2">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="container mx-auto"
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-white drop-shadow-lg">
-              Join Our Growing Community
-            </h2>
-            <p className="text-xl sm:text-2xl mb-10 text-white/90 max-w-3xl mx-auto leading-relaxed px-4 font-medium drop-shadow-md">
-              Get exclusive access to premium content, engage with our community, and never miss an important story.
-            </p>
-            <Button
-              size="lg"
-              className="w-full sm:w-auto bg-white text-[#F15A24] hover:bg-gray-100 font-bold shadow-2xl hover:shadow-white/50 transition-all hover:-translate-y-1 text-lg py-6 px-10 rounded-full"
-              asChild
-            >
-              <Link to="/register">
-                Create Your Free Account
-                <ArrowRight className="ml-2 h-6 w-6" />
-              </Link>
-            </Button>
+            <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl px-6 py-4 rounded-3xl border border-primary-100/20 dark:border-primary-800/20 shadow-premium-lg flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 rounded-2xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
+                    <Trophy className="h-5 w-5 text-primary-600" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Current XP</div>
+                    <div className="text-lg font-black text-primary-600 leading-none">{xp.toLocaleString()}</div>
+                  </div>
+                </div>
+                <div className="h-8 w-px bg-primary-100 dark:bg-primary-800" />
+                <div className="flex-1 min-w-[150px]">
+                  <div className="flex justify-between items-end mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Daily Progress</span>
+                    <span className="text-xs font-bold text-primary-600">{dailyGoal} XP left</span>
+                  </div>
+                  <div className="h-2 bg-primary-50 dark:bg-primary-900/30 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${dailyProgress}%` }}
+                      className="h-full bg-gradient-to-r from-primary-500 to-indigo-400"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Badge variant="outline" className="bg-amber-50 text-amber-600 border-amber-200 px-4 py-1.5 rounded-2xl font-bold flex gap-2">
+                  <Star className="h-3.5 w-3.5 fill-current" />
+                  Reading Streak: 5 Days
+                </Badge>
+                <Button size="sm" className="bg-primary-600 hover:bg-primary-700 text-white rounded-2xl font-bold px-6 shadow-premium-md">
+                  Claim Rewards
+                </Button>
+              </div>
+            </div>
           </motion.div>
         </div>
-      </section>
-    </div>
+
+        <main className="container mx-auto px-4 py-12">
+          {/* 🎫 Dynamic Tab Navigation */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-16">
+            <div className="flex items-center gap-2 bg-primary-50/50 dark:bg-primary-900/20 p-2 rounded-3xl border border-primary-100/20">
+              {['all', 'politics', 'sports', 'culture'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-8 py-3 rounded-2xl font-bold text-sm transition-all duration-500 capitalize ${activeTab === tab
+                    ? 'bg-white dark:bg-primary-800 text-primary-600 shadow-premium-sm scale-105'
+                    : 'text-text-secondary hover:text-primary-500'
+                    }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            <div className="relative group w-full md:w-auto">
+              <SearchIcon className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-300 group-hover:text-primary-500 transition-colors" />
+              <input
+                type="text"
+                placeholder="Search premium stories..."
+                className="w-full md:w-96 pl-14 pr-6 py-4 rounded-3xl bg-white/50 dark:bg-gray-900/50 border border-primary-100/20 focus:border-primary-400 focus:ring-4 focus:ring-primary-400/10 transition-all outline-none text-text-primary"
+              />
+            </div>
+          </div>
+
+          {/* 📰 Masonry Feed - Premium Cards */}
+          <div className="relative">
+            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 1100: 3 }}>
+              <Masonry gutter="32px">
+                {mockArticles
+                  .filter(article => activeTab === 'all' || article.category === activeTab)
+                  .map((article, index) => (
+                    <motion.div
+                      key={article.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                    >
+                      <Link to={`/articles/${article.id}`} className="block group">
+                        <div className="premium-card overflow-hidden h-full flex flex-col bg-white/60 dark:bg-gray-900/60 backdrop-blur-md">
+                          <div className="relative aspect-[16/10] overflow-hidden">
+                            <img
+                              src={article.coverImage}
+                              alt={article.title}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-at-bottom from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute top-4 left-4">
+                              <Badge className="bg-primary-600/90 text-white backdrop-blur-md border-none px-4 py-1.5 rounded-xl font-bold">
+                                {article.category}
+                              </Badge>
+                            </div>
+                            <div className="absolute bottom-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                              <div className="bg-white/90 dark:bg-black/90 p-2 rounded-xl shadow-premium-lg flex items-center gap-1.5 px-3">
+                                <Zap className="h-4 w-4 text-amber-500" />
+                                <span className="text-xs font-black text-amber-600">+10 XP</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="p-8 flex-1 flex flex-col">
+                            <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-4">
+                              <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" /> {article.readTime} min</span>
+                              <span className="w-1 h-1 rounded-full bg-primary-200" />
+                              <span>Premium Entry</span>
+                            </div>
+
+                            <h3 className="text-2xl font-black text-text-primary mb-3 leading-tight group-hover:text-primary-600 transition-colors">
+                              {article.title}
+                            </h3>
+
+                            <p className="text-text-secondary text-sm leading-relaxed mb-6 line-clamp-3">
+                              {article.excerpt}
+                            </p>
+
+                            <div className="mt-auto pt-6 border-t border-primary-100/10 flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-primary-100" />
+                                <span className="text-xs font-bold text-text-primary">Journalist Name</span>
+                              </div>
+                              <div className="flex items-center gap-3 text-text-tertiary">
+                                <div className="flex items-center gap-1"><Heart className="h-4 w-4" /> <span className="text-[10px] font-bold">1.2k</span></div>
+                                <div className="flex items-center gap-1"><MessageCircle className="h-4 w-4" /> <span className="text-[10px] font-bold">48</span></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+              </Masonry>
+            </ResponsiveMasonry>
+          </div>
+        </main>
+      </div>
+
+      {/* Theme Switcher - Floating Action Button */}
+      <ThemeSwitcher />
+    </>
   );
 };

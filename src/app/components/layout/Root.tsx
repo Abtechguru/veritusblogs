@@ -10,6 +10,7 @@ import { useLocation } from 'react-router';
 import { FloatingReelsButton } from '../FloatingReelsButton';
 import { MobileNav } from './MobileNav';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { GamificationHandler } from '../gamification/GamificationHandler';
 
 export const Root = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ export const Root = () => {
   return (
     <PayPalScriptProvider options={{ clientId: "test" }}>
       <div className="min-h-screen flex flex-col bg-background animated-bg pb-16 sm:pb-20 xl:pb-0">
+        <GamificationHandler />
         <Header />
         {!hideStories && <Stories />}
         <main className="flex-1">
