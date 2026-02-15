@@ -9,7 +9,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import {
   TableOfContents,
   ReadingProgress,
-  ArticleDetailHeader
+  ArticleContent,
+  CommentSection,
+  RelatedArticles
 } from '../components/article/ArticleComponents';
 import { motion, useScroll, useSpring } from 'motion/react';
 import { useGamificationStore } from '../store/gamificationStore';
