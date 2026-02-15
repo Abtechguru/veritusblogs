@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
-import { Twitter, Facebook, Linkedin, Link2, Check, Heart, Bookmark, Share2, Reply, MoreHorizontal, Clock, Eye, List, ChevronDown, MessageCircle } from 'lucide-react';
+import { Twitter, Facebook, Linkedin, Link2, Check, Heart, Bookmark, Reply, MoreHorizontal, Clock, Eye, List, ChevronDown, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router';
 import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Textarea } from '../ui/textarea';
-import { Article, Comment, mockArticles, mockComments, getCommentsByArticleId } from '../../data/mockData';
+import { Article, Comment, mockArticles, getCommentsByArticleId } from '../../data/mockData';
 import { formatDate, formatDistanceToNow } from '../../lib/utils';
 import { Card, CardContent } from '../ui/card';
 
@@ -494,9 +494,11 @@ export function RelatedArticles({ currentArticleId, category, tags }: { currentA
                                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">{article.excerpt}</p>
                                 <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                                     <span>{formatDate(article.publishedAt)}</span>
-                                    <div className="flex items-center gap-3">
+                                    <div className="flex flex-wrap items-center gap-3">
                                         <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {article.readTime} min</span>
                                         <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> {article.views.toLocaleString()}</span>
+                                        <span className="flex items-center gap-1"><Heart className="h-3 w-3" /> {article.likes.toLocaleString()}</span>
+                                        <span className="flex items-center gap-1"><MessageCircle className="h-3 w-3" /> {article.commentsCount}</span>
                                     </div>
                                 </div>
                             </CardContent>

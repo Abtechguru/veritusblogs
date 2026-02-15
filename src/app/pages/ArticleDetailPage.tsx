@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { Link } from 'react-router';
-import { Calendar, Clock, Eye, ChevronLeft } from 'lucide-react';
+import { Calendar, Clock, Eye, ChevronLeft, Heart, MessageCircle } from 'lucide-react';
 import { getArticleById } from '../data/mockData';
 import { formatDate } from '../lib/utils';
 import { Button } from '../components/ui/button';
@@ -130,6 +130,16 @@ export const ArticleDetailPage = () => {
               <div className="flex items-center gap-2">
                 <Eye className="h-4 w-4 text-[#F15A24]" />
                 <span>{article.views.toLocaleString()} views</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Heart className="h-4 w-4 text-[#F15A24]" />
+                <span>{article.likes.toLocaleString()} likes</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4 text-[#F15A24]" />
+                <span>{article.commentsCount} comments</span>
               </div>
             </div>
           </div>

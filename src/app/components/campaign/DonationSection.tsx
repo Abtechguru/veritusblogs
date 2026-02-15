@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { campaignService, Donator } from '../../services/campaignService';
 import { toast } from 'sonner';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 export const DonationSection = () => {
     const [donators, setDonators] = useState<Donator[]>([]);
@@ -41,21 +42,6 @@ export const DonationSection = () => {
         setShowPaypal(true);
     };
 
-    const simulateSuccess = async () => {
-        try {
-            await campaignService.addDonation({
-                name: 'Anonymous Supporter',
-                amount: parseFloat(customAmount),
-                message: 'Supporting the vision!'
-            });
-            toast.success('Thank you for your donation!');
-            setShowPaypal(false);
-            setCustomAmount('');
-            fetchDonations();
-        } catch (error) {
-            toast.error('Processing failed');
-        }
-    };
 
     return (
         <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
@@ -126,24 +112,58 @@ export const DonationSection = () => {
                                         className="h-16 pl-10 rounded-2xl border-2 border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 focus:ring-rose-600 text-xl font-bold"
                                     />
                                 </div>
-                                {!showPaypal ? (
+                                {showPaypal && customAmount ? (
+                                    <div className="w-full space-y-4">
+                                        <div className="p-4 bg-white dark:bg-gray-800 rounded-2xl border-2 border-rose-600/20">
+                                            <p className="text-sm font-bold text-gray-500 mb-1">Confirming Donation Amount</p>
+                                            <p className="text-3xl font-black text-rose-600">${parseFloat(customAmount).toLocaleString()}</p>
+                                        </div>
+                                        <PayPalButtons
+                                            style={{ layout: "vertical", shape: "rect" }}
+                                            createOrder={(_data, actions) => {
+                                                return actions.order.create({
+                                                    intent: "CAPTURE",
+                                                    purchase_units: [{
+                                                        amount: {
+                                                            currency_code: "USD",
+                                                            value: customAmount
+                                                        },
+                                                        description: "Campaign Donation"
+                                                    }]
+                                                });
+                                            }}
+                                            onApprove={async (_data, actions) => {
+                                                if (actions.order) {
+                                                    const details = await actions.order.capture();
+                                                    const name = details.payer?.name?.given_name || "Anonymous Supporter";
+                                                    await campaignService.addDonation({
+                                                        name: name,
+                                                        amount: parseFloat(customAmount),
+                                                        message: 'Donated via PayPal'
+                                                    });
+                                                    toast.success(`Thank you, ${name}! Your donation has been received.`);
+                                                    setShowPaypal(false);
+                                                    setCustomAmount('');
+                                                    fetchDonations();
+                                                }
+                                            }}
+                                            onError={(err) => {
+                                                console.error("PayPal Error:", err);
+                                                toast.error("Payment failed. Please try again.");
+                                            }}
+                                        />
+                                        <Button variant="ghost" className="w-full text-xs font-bold uppercase tracking-widest text-gray-400" onClick={() => setShowPaypal(false)}>
+                                            Cancel and Edit Amount
+                                        </Button>
+                                    </div>
+                                ) : (
                                     <Button
                                         onClick={handleDonate}
-                                        className="h-16 px-10 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-black text-[11px] uppercase tracking-[2px] shadow-xl shadow-rose-600/20 transition-all"
+                                        disabled={!customAmount || parseFloat(customAmount) <= 0}
+                                        className="h-16 px-10 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-black text-[11px] uppercase tracking-[2px] shadow-xl shadow-rose-600/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         Proceed to PayPal
                                     </Button>
-                                ) : (
-                                    <div className="flex flex-col gap-2 w-full sm:w-auto">
-                                        <Button
-                                            onClick={simulateSuccess}
-                                            className="h-16 px-10 rounded-2xl bg-[#0070ba] hover:bg-[#003087] text-white font-black shadow-xl transition-all flex items-center gap-2"
-                                        >
-                                            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal" className="h-4" />
-                                            Complete Payment
-                                        </Button>
-                                        <Button variant="ghost" className="text-xs" onClick={() => setShowPaypal(false)}>Cancel</Button>
-                                    </div>
                                 )}
                             </div>
                         </div>

@@ -2,13 +2,24 @@ import { Link } from 'react-router';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { ArrowRight, TrendingUp, Clock, Eye, Megaphone, Calendar } from 'lucide-react';
+import { ArrowRight, TrendingUp, Clock, Eye, Heart, MessageCircle, Megaphone } from 'lucide-react';
 import { mockArticles, categories, getFeaturedArticles } from '../data/mockData';
 import { motion } from 'motion/react';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+import { useEffect, useState } from 'react';
+import { campaignService } from '../services/campaignService';
 
 export const HomePage = () => {
   const featuredArticles = getFeaturedArticles();
   const latestArticles = mockArticles.slice(0, 6);
+  const [totalDonations, setTotalDonations] = useState(0);
+
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
+
+  useEffect(() => {
+    campaignService.getTotalDonations().then(setTotalDonations);
+  }, []);
 
   return (
     <div className="min-h-screen text-gray-900 dark:text-gray-100">
@@ -83,24 +94,24 @@ export const HomePage = () => {
               Meet Our Candidates
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Discover the visionaries shaping the future of our nation.
+              Current total contributions: <span className="text-[#F15A24] font-black">${totalDonations.toLocaleString()}</span>
             </p>
           </motion.div>
 
           {/* Campaign Billboard Slider */}
-          <div className="relative group billboard-mask max-w-7xl mx-auto">
+          <div className="relative group billboard-mask max-w-7xl mx-auto overflow-hidden" ref={emblaRef}>
             {/* Scroll Container */}
-            <div className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory custom-scrollbar-hide cursor-grab active:cursor-grabbing px-6 sm:px-24">
+            <div className="flex">
               {/* David Ombugadu Billboard */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="min-w-[90vw] md:min-w-[800px] lg:min-w-[900px] snap-center"
+                className="flex-[0_0_100%] min-w-0 px-4 md:px-24"
               >
                 <Link to="/campaign/david-ombugadu-2027">
-                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.02] transition-all duration-700 bg-white dark:bg-gray-900">
+                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.01] transition-all duration-700 bg-white dark:bg-gray-900">
                     <div className="absolute inset-0">
                       <img
                         src="/david portrat.jpg"
@@ -141,10 +152,10 @@ export const HomePage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="min-w-[90vw] md:min-w-[800px] lg:min-w-[900px] snap-center"
+                className="flex-[0_0_100%] min-w-0 px-4 md:px-24"
               >
                 <Link to="/campaign/ambode-2027">
-                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.02] transition-all duration-700 bg-white dark:bg-gray-900">
+                  <Card className="relative h-[450px] md:h-[500px] border-none overflow-hidden rounded-[2rem] shadow-2xl group/billboard hover:scale-[1.01] transition-all duration-700 bg-white dark:bg-gray-900">
                     <div className="absolute inset-0">
                       <img
                         src="https://placehold.co/1200x600/2563EB/FFFFFF/png?text=Akinwunmi+Ambode"
@@ -181,8 +192,9 @@ export const HomePage = () => {
             </div>
 
             {/* Scroll Indicator Hint */}
-            <div className="flex justify-center gap-2 mt-4">
+            <div className="flex justify-center gap-2 mt-8 pb-12">
               <div className="h-1.5 w-12 bg-[#F15A24] rounded-full" />
+              <div className="h-1.5 w-1.5 bg-gray-300 dark:bg-gray-700 rounded-full" />
               <div className="h-1.5 w-1.5 bg-gray-300 dark:bg-gray-700 rounded-full" />
             </div>
           </div>
@@ -242,6 +254,14 @@ export const HomePage = () => {
                         <span className="flex items-center">
                           <Eye className="h-4 w-4 mr-1.5 text-blue-500" />
                           {article.views.toLocaleString()}
+                        </span>
+                        <span className="flex items-center">
+                          <Heart className="h-4 w-4 mr-1.5 text-red-500" />
+                          {article.likes.toLocaleString()}
+                        </span>
+                        <span className="flex items-center">
+                          <MessageCircle className="h-4 w-4 mr-1.5 text-[#F15A24]" />
+                          {article.commentsCount}
                         </span>
                       </div>
                     </div>
@@ -335,10 +355,10 @@ export const HomePage = () => {
                     </p>
                     <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mt-auto border-t border-gray-200 dark:border-gray-700/50 pt-3">
                       <span className="truncate mr-2 font-medium">{article.authorName}</span>
-                      <span className="whitespace-nowrap flex items-center">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        {new Date(article.publishedAt).toLocaleDateString()}
-                      </span>
+                      <div className="flex items-center gap-3">
+                        <span className="flex items-center gap-1"><Heart className="h-3 w-3" /> {article.likes}</span>
+                        <span className="flex items-center gap-1"><MessageCircle className="h-3 w-3" /> {article.commentsCount}</span>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
