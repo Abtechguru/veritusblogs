@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
-import { mockReels, Reel } from '../../data/mockReels';
+import { Reel } from '../../data/mockReels';
 import { reelService } from '../../services/reelService';
-import { Search, Trash2, Eye, Loader2, Plus, Film, Video, Play, TrendingUp, Filter, Share2, MoreHorizontal, Calendar } from 'lucide-react';
+import { Search, Trash2, Loader2, Plus, Film, Video, Play, TrendingUp, Filter, Share2, MoreHorizontal, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import {
     Dialog,
@@ -20,7 +20,6 @@ import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { useAuth } from '../../contexts/AuthContext';
 import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/avatar';
-import { Badge } from '../../components/ui/badge';
 
 export const AdminReels = () => {
     const { user } = useAuth();
@@ -65,6 +64,7 @@ export const AdminReels = () => {
             }
         } catch (error) {
             console.error('Failed to fetch reels:', error);
+            const { mockReels } = await import('../../data/mockReels');
             setReels(mockReels);
         } finally {
             setLoading(false);

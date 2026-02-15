@@ -1,61 +1,35 @@
 import { createBrowserRouter } from "react-router";
 import { Root } from "./components/layout/Root";
-import { AdminLayout } from "./components/layout/AdminLayout";
+
+// Standard components that are small or needed immediately
 import { HomePage } from "./pages/HomePage";
-import { ArticleListPage } from "./pages/ArticleListPage";
-import { ArticleDetailPage } from "./pages/ArticleDetailPage";
-import { CategoryPage } from "./pages/CategoryPage";
-import { CampaignPage } from "./pages/CampaignPage";
-import { AmbodeCampaignPage } from "./pages/AmbodeCampaignPage";
-import { AuthorPage } from "./pages/AuthorPage";
-import { LoginPage } from "./pages/auth/LoginPage";
-import { EnhancedRegisterPage } from "./pages/auth/EnhancedRegisterPage";
-import { ProfilePage } from "./pages/ProfilePage";
-import { AdminLoginPage } from "./pages/auth/AdminLoginPage";
-import { AdminDashboard } from "./pages/admin/AdminDashboard";
-import { AdminUsers } from "./pages/admin/AdminUsers";
-import { AdminUserApprovals } from "./pages/admin/AdminUserApprovals";
-import { AdminArticles } from "./pages/admin/AdminArticles";
-import { AdminAnalytics } from "./pages/admin/AdminAnalytics";
-import { AdminBroadcast } from "./pages/admin/AdminBroadcast";
-import { AdminComments } from "./pages/admin/AdminComments";
-import { AdminSupport } from "./pages/admin/AdminSupport";
-import { AdminStories } from "./pages/admin/AdminStories";
-import { AdminReels } from "./pages/admin/AdminReels";
-import { AdminWiseWords } from "./pages/admin/AdminWiseWords";
-import { AdminSponsored } from "./pages/admin/AdminSponsored";
-import { AdminAuthors } from "./pages/admin/AdminAuthors";
-import { CreateArticlePage } from "./pages/CreateArticlePage";
-import { EditArticlePage } from "./pages/EditArticlePage";
-import { LeaderboardPage } from "./pages/LeaderboardPage";
-import { WeeklyTopicPage } from "./pages/WeeklyTopicPage";
-import { ReelsPage } from "./pages/ReelsPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
-import { TagPage } from "./pages/TagPage";
+// Lazy-loaded layouts and heavy pages
+const AdminLayout = () => import("./components/layout/AdminLayout").then(m => ({ Component: m.AdminLayout }));
 
 export const router = createBrowserRouter([
   {
     path: "/admin/login",
-    Component: AdminLoginPage,
+    lazy: () => import("./pages/auth/AdminLoginPage").then(m => ({ Component: m.AdminLoginPage })),
   },
   {
     path: "/admin",
-    Component: AdminLayout,
+    lazy: AdminLayout,
     children: [
-      { index: true, Component: AdminDashboard },
-      { path: "articles", Component: AdminArticles },
-      { path: "sponsored", Component: AdminSponsored },
-      { path: "authors", Component: AdminAuthors },
-      { path: "users", Component: AdminUsers },
-      { path: "comments", Component: AdminComments },
-      { path: "support", Component: AdminSupport },
-      { path: "reels", Component: AdminReels },
-      { path: "stories", Component: AdminStories },
-      { path: "wise-words", Component: AdminWiseWords },
-      { path: "analytics", Component: AdminAnalytics },
-      { path: "broadcast", Component: AdminBroadcast },
-      { path: "approvals", Component: AdminUserApprovals },
+      { index: true, lazy: () => import("./pages/admin/AdminDashboard").then(m => ({ Component: m.AdminDashboard })) },
+      { path: "articles", lazy: () => import("./pages/admin/AdminArticles").then(m => ({ Component: m.AdminArticles })) },
+      { path: "sponsored", lazy: () => import("./pages/admin/AdminSponsored").then(m => ({ Component: m.AdminSponsored })) },
+      { path: "authors", lazy: () => import("./pages/admin/AdminAuthors").then(m => ({ Component: m.AdminAuthors })) },
+      { path: "users", lazy: () => import("./pages/admin/AdminUsers").then(m => ({ Component: m.AdminUsers })) },
+      { path: "comments", lazy: () => import("./pages/admin/AdminComments").then(m => ({ Component: m.AdminComments })) },
+      { path: "support", lazy: () => import("./pages/admin/AdminSupport").then(m => ({ Component: m.AdminSupport })) },
+      { path: "reels", lazy: () => import("./pages/admin/AdminReels").then(m => ({ Component: m.AdminReels })) },
+      { path: "stories", lazy: () => import("./pages/admin/AdminStories").then(m => ({ Component: m.AdminStories })) },
+      { path: "wise-words", lazy: () => import("./pages/admin/AdminWiseWords").then(m => ({ Component: m.AdminWiseWords })) },
+      { path: "analytics", lazy: () => import("./pages/admin/AdminAnalytics").then(m => ({ Component: m.AdminAnalytics })) },
+      { path: "broadcast", lazy: () => import("./pages/admin/AdminBroadcast").then(m => ({ Component: m.AdminBroadcast })) },
+      { path: "approvals", lazy: () => import("./pages/admin/AdminUserApprovals").then(m => ({ Component: m.AdminUserApprovals })) },
     ]
   },
   {
@@ -63,21 +37,21 @@ export const router = createBrowserRouter([
     Component: Root,
     children: [
       { index: true, Component: HomePage },
-      { path: "articles", Component: ArticleListPage },
-      { path: "articles/:id", Component: ArticleDetailPage },
-      { path: "category/:category", Component: CategoryPage },
-      { path: "tag/:tag", Component: TagPage },
-      { path: "campaign/david-ombugadu-2027", Component: CampaignPage },
-      { path: "campaign/ambode-2027", Component: AmbodeCampaignPage },
-      { path: "author/:authorId", Component: AuthorPage },
-      { path: "leaderboard", Component: LeaderboardPage },
-      { path: "weekly-topic", Component: WeeklyTopicPage },
-      { path: "reels", Component: ReelsPage },
-      { path: "login", Component: LoginPage },
-      { path: "register", Component: EnhancedRegisterPage },
-      { path: "profile", Component: ProfilePage },
-      { path: "create-article", Component: CreateArticlePage },
-      { path: "edit-article/:id", Component: EditArticlePage },
+      { path: "articles", lazy: () => import("./pages/ArticleListPage").then(m => ({ Component: m.ArticleListPage })) },
+      { path: "articles/:id", lazy: () => import("./pages/ArticleDetailPage").then(m => ({ Component: m.ArticleDetailPage })) },
+      { path: "category/:category", lazy: () => import("./pages/CategoryPage").then(m => ({ Component: m.CategoryPage })) },
+      { path: "tag/:tag", lazy: () => import("./pages/TagPage").then(m => ({ Component: m.TagPage })) },
+      { path: "campaign/david-ombugadu-2027", lazy: () => import("./pages/CampaignPage").then(m => ({ Component: m.CampaignPage })) },
+      { path: "campaign/ambode-2027", lazy: () => import("./pages/AmbodeCampaignPage").then(m => ({ Component: m.AmbodeCampaignPage })) },
+      { path: "author/:authorId", lazy: () => import("./pages/AuthorPage").then(m => ({ Component: m.AuthorPage })) },
+      { path: "leaderboard", lazy: () => import("./pages/LeaderboardPage").then(m => ({ Component: m.LeaderboardPage })) },
+      { path: "weekly-topic", lazy: () => import("./pages/WeeklyTopicPage").then(m => ({ Component: m.WeeklyTopicPage })) },
+      { path: "reels", lazy: () => import("./pages/ReelsPage").then(m => ({ Component: m.ReelsPage })) },
+      { path: "login", lazy: () => import("./pages/auth/LoginPage").then(m => ({ Component: m.LoginPage })) },
+      { path: "register", lazy: () => import("./pages/auth/EnhancedRegisterPage").then(m => ({ Component: m.EnhancedRegisterPage })) },
+      { path: "profile", lazy: () => import("./pages/ProfilePage").then(m => ({ Component: m.ProfilePage })) },
+      { path: "create-article", lazy: () => import("./pages/CreateArticlePage").then(m => ({ Component: m.CreateArticlePage })) },
+      { path: "edit-article/:id", lazy: () => import("./pages/EditArticlePage").then(m => ({ Component: m.EditArticlePage })) },
       { path: "*", Component: NotFoundPage },
     ],
   },
